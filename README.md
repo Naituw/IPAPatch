@@ -46,33 +46,33 @@ IPAPatch provides a simple way to patch iOS Apps, without need for jailbreaking.
    
 2. **Prepare Decrypted IPA File**
   
-  The IPA file you use need to be decrypted, you can get decrypted ipa from jailbroken device or download directly from ipa download site, such as http://www.iphonecake.com
+   The IPA file you use need to be decrypted, you can get decrypted ipa from jailbroken device or download directly from ipa download site, such as http://www.iphonecake.com
   
 3. **Replace Placeholder IPA**
 
-  Replace the IPA file located at `IPAPatch/Assets/app.ipa` with yours, this is a placeholder file. The filename should remain `app.ipa` after replacing.
+   Replace the IPA file located at `IPAPatch/Assets/app.ipa` with yours, this is a placeholder file. The filename should remain `app.ipa` after replacing.
   
 4. **Place External Frameworks (If Any)**
   
-  External frameworks can be placed at `IPAPatch/Assets/Frameworks` folder. Frameworks will linked automatically.
+   External frameworks can be placed at `IPAPatch/Assets/Frameworks` folder. Frameworks will linked automatically.
   
-  For example `IPAPatch/Assets/Frameworks/RevealServer.framework`
+   For example `IPAPatch/Assets/Frameworks/RevealServer.framework`
   
 5. **Configure Build Settings**
 
-  - Open `IPAPatch.xcodeproj`
-  - In the Project Editor, Select Target `IPAPatch-DummyApp`
-  - `Display Name` defaults to "💊", this is used as prefix of final display name.
-  - Change `Bundle Identifier` to match your provisioning profiles
-  - Fix signing issues if any.
+   - Open `IPAPatch.xcodeproj`
+   - In the Project Editor, Select Target `IPAPatch-DummyApp`
+   - `Display Name` defaults to "💊", this is used as prefix of final display name.
+   - Change `Bundle Identifier` to match your provisioning profiles
+   - Fix signing issues if any.
 
 6. **Code Your Patch**
 
-  The entry is at `+[IPAPatchEntry load]`, you can write code start from here. To change apps' behavior, You may need to use some method swizzling library, such as [steipete/Aspects](https://github.com/steipete/Aspects).
+   The entry is at `+[IPAPatchEntry load]`, you can write code start from here. To change apps' behavior, You may need to use some method swizzling library, such as [steipete/Aspects](https://github.com/steipete/Aspects).
 
 7. **Build and Run**
 
-  Select an real device, and hit "Run" button at the top-left corner of Xcode. The code your wrote and external frameworks you placed will inject to the ipa file automatically.
+   Select an real device, and hit "Run" button at the top-left corner of Xcode. The code your wrote and external frameworks you placed will inject to the ipa file automatically.
 
 ## License
 
