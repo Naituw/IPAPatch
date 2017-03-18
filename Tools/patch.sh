@@ -31,9 +31,10 @@ ASSETS_PATH="${SRCROOT}/Assets"
 TARGET_IPA_PATH="${ASSETS_PATH}/app.ipa"
 FRAMEWORKS_TO_INJECT_PATH="${ASSETS_PATH}/Frameworks"
 
+DUMMY_DISPLAY_NAME="" # To be found in Step 0
+TARGET_BUNDLE_ID="" # To be found in Step 0
 TEMP_APP_PATH=""   # To be found in Step 1
 TARGET_APP_PATH="" # To be found in Step 2
-DUMMY_DISPLAY_NAME="" # To be found in Step 2
 TARGET_APP_FRAMEWORKS_PATH="" # To be found in Step 4
 
 
@@ -43,6 +44,12 @@ TARGET_APP_FRAMEWORKS_PATH="" # To be found in Step 4
 
 rm -rf "$TEMP_PATH" || true
 mkdir -p "$TEMP_PATH" || true
+
+DUMMY_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c "Print CFBundleDisplayName"  "${SRCROOT}/$TARGET_NAME/Info.plist")
+echo "DUMMY_DISPLAY_NAME: $DUMMY_DISPLAY_NAME"
+
+TARGET_BUNDLE_ID="$PRODUCT_BUNDLE_IDENTIFIER"
+echo "TARGET_BUNDLE_ID: $TARGET_BUNDLE_ID"
 
 
 # ---------------------------------------------------
@@ -60,9 +67,6 @@ echo "TEMP_APP_PATH: $TEMP_APP_PATH"
 
 TARGET_APP_PATH="$BUILT_PRODUCTS_DIR/$TARGET_NAME.app"
 echo "TARGET_APP_PATH: $TARGET_APP_PATH"
-
-DUMMY_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c "Print CFBundleDisplayName"  "${SRCROOT}/$TARGET_NAME/Info.plist")
-echo "DUMMY_DISPLAY_NAME: $DUMMY_DISPLAY_NAME"
 
 rm -rf "$TARGET_APP_PATH" || true
 mkdir -p "$TARGET_APP_PATH" || true
@@ -128,7 +132,6 @@ rm -rf "$TARGET_APP_PATH/PlugIns" || true
 # ---------------------------------------------------
 # 7. Update Info.plist for Target App
 
-TARGET_BUNDLE_ID="$PRODUCT_BUNDLE_IDENTIFIER"
 TARGET_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c "Print CFBundleDisplayName"  "$TARGET_APP_PATH/Info.plist")
 TARGET_DISPLAY_NAME="$DUMMY_DISPLAY_NAME$TARGET_DISPLAY_NAME"
 
