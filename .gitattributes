@@ -1,2 +1,0 @@
-*.ipa filter=lfs diff=lfs merge=lfs -text
-Assets/Frameworks/*.framework filter=lfs diff=lfs merge=lfs -text
