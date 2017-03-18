@@ -9,8 +9,6 @@
 #import "IPAPatchEntry.h"
 #import <UIKit/UIKit.h>
 
-#include "dlfcn.h"
-
 @implementation IPAPatchEntry
 
 + (void)load
