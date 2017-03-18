@@ -1,6 +1,6 @@
 ![IPAPatch Hero](http://wx3.sinaimg.cn/large/bebedbb5ly1fdrg7fik5wj20f305r0tf.jpg)
 
-IPAPatch provides a simple way to patch iOS Apps, without need for jailbreaking.
+IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
 
 [ [Features](#features) &bull; [Instructions](#instructions) &bull; [License](#license) ]
 
