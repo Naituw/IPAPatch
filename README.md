@@ -52,7 +52,7 @@ IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
 
    Replace the IPA file located at `IPAPatch/Assets/app.ipa` with yours, this is a placeholder file. The filename should remain `app.ipa` after replacing.
   
-4. **Place External Frameworks (If Any)**
+4. **Place External Frameworks (Optional)**
   
    External frameworks can be placed at `IPAPatch/Assets/Frameworks` folder. Frameworks will linked automatically.
   
