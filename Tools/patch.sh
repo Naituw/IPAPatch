@@ -122,9 +122,10 @@ done
 
 
 # ---------------------------------------------------
-# 5. Remove Plugins (AppExtensions), To Simplify the Signing Process
+# 5. Remove Plugins/Watch (AppExtensions), To Simplify the Signing Process
 
 rm -rf "$TARGET_APP_PATH/PlugIns" || true
+rm -rf "$TARGET_APP_PATH/Watch" || true
 
 
 
