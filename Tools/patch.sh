@@ -83,10 +83,10 @@ OPTOOL="${SRCROOT}/Tools/optool"
 
 mkdir "$TARGET_APP_PATH/Dylibs"
 cp "$BUILT_PRODUCTS_DIR/IPAPatch.framework/IPAPatch" "$TARGET_APP_PATH/Dylibs/IPAPatch"
-for file in `ls -1 $TARGET_APP_PATH/Dylibs`; do
+for file in `ls -1 "$TARGET_APP_PATH/Dylibs"`; do
     echo -n '     '
     echo "Install Load: $file -> @executable_path/Dylibs/$file"
-    $OPTOOL install -c load -p "@executable_path/Dylibs/$file" -t $TARGET_APP_PATH/$APP_BINARY >& /dev/null
+    "$OPTOOL" install -c load -p "@executable_path/Dylibs/$file" -t "$TARGET_APP_PATH/$APP_BINARY"
 done
 
 chmod +x "$TARGET_APP_PATH/$APP_BINARY"
@@ -100,7 +100,7 @@ chmod +x "$TARGET_APP_PATH/$APP_BINARY"
 TARGET_APP_FRAMEWORKS_PATH="$BUILT_PRODUCTS_DIR/$TARGET_NAME.app/Frameworks"
 
 echo "Injecting Frameworks from $FRAMEWORKS_TO_INJECT_PATH"
-for file in `ls -1 ${FRAMEWORKS_TO_INJECT_PATH}`; do
+for file in `ls -1 "${FRAMEWORKS_TO_INJECT_PATH}"`; do
     extension="${file##*.}"
     echo "$file 's extension is $extension"
 
@@ -115,7 +115,10 @@ for file in `ls -1 ${FRAMEWORKS_TO_INJECT_PATH}`; do
 
     echo -n '     '
     echo "Install Load: $file -> @executable_path/Dylibs/$filename"
-    $OPTOOL install -c load -p "@executable_path/Dylibs/$filename" -t $TARGET_APP_PATH/$APP_BINARY >& /dev/null
+
+    echo "TARGET: $TARGET_APP_PATH"
+
+    "$OPTOOL" install -c load -p "@executable_path/Dylibs/$filename" -t "$TARGET_APP_PATH/$APP_BINARY"
 done
 
 
