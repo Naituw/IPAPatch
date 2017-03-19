@@ -2,7 +2,7 @@
 
 IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
 
-[ [Features](#features) &bull; [Instructions](#instructions) &bull; [License](#license) ]
+[ [Features](#features) &bull; [Instructions](#instructions) &bull; [Example](#example) &bull; [License](#license) ]
 
 ## Features
 
@@ -73,6 +73,11 @@ IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
 7. **Build and Run**
 
    Select an real device, and hit "Run" button at the top-left corner of Xcode. The code your wrote and external frameworks you placed will inject to the ipa file automatically.
+
+## Example
+
+I created a demo project, shows you how to integrate Reveal into Youtube, which can be found here:
+https://github.com/Naituw/IPAPatch/releases/tag/1.0
 
 ## License
 
