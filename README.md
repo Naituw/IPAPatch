@@ -46,7 +46,7 @@ IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
    
 2. **Prepare Decrypted IPA File**
   
-   The IPA file you use need to be decrypted, you can get a decrypted ipa from jailbroken device or download directly from an ipa download site, such as http://www.iphonecake.com
+   The IPA file you use need to be decrypted, you can get a decrypted ipa from a jailbroken device or download it directly from an ipa download site, such as http://www.iphonecake.com
   
 3. **Replace Placeholder IPA**
 
@@ -58,7 +58,7 @@ IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
   
    For example `IPAPatch/Assets/Frameworks/RevealServer.framework`
   
-5. **Configure Build Settings**i
+5. **Configure Build Settings**
 
    - Open `IPAPatch.xcodeproj`
    - In the Project Editor, Select Target `IPAPatch-DummyApp`
