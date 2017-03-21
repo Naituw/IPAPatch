@@ -10,7 +10,7 @@ IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
 
 - **Build & Run third-party ipa with your code injected**
 
-  You can run your own code inside ipa file as a dynamic library. So you can change behavior of that app by utilize Objective-C runtime.
+  You can run your own code inside ipa file as a dynamic library. So you can change behavior of that app by utilizing Objective-C runtime.
   
   > *Presented an custom alert in Youtube app*
   >
@@ -46,7 +46,7 @@ IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
    
 2. **Prepare Decrypted IPA File**
   
-   The IPA file you use need to be decrypted, you can get decrypted ipa from jailbroken device or download directly from ipa download site, such as http://www.iphonecake.com
+   The IPA file you use need to be decrypted, you can get a decrypted ipa from a jailbroken device or download it directly from an ipa download site, such as http://www.iphonecake.com
   
 3. **Replace Placeholder IPA**
 
@@ -54,7 +54,7 @@ IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
   
 4. **Place External Frameworks (Optional)**
   
-   External frameworks can be placed at `IPAPatch/Assets/Frameworks` folder. Frameworks will linked automatically.
+   External frameworks can be placed at `IPAPatch/Assets/Frameworks` folder. Frameworks will be linked automatically.
   
    For example `IPAPatch/Assets/Frameworks/RevealServer.framework`
   
@@ -62,7 +62,7 @@ IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
 
    - Open `IPAPatch.xcodeproj`
    - In the Project Editor, Select Target `IPAPatch-DummyApp`
-   - `Display Name` defaults to "💊", this is used as prefix of final display name.
+   - `Display Name` defaults to "💊", this is used as prefix of the final display name.
    - Change `Bundle Identifier` to match your provisioning profiles
    - Fix signing issues if any.
 
@@ -72,11 +72,11 @@ IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
 
 7. **Build and Run**
 
-   Select an real device, and hit "Run" button at the top-left corner of Xcode. The code your wrote and external frameworks you placed will inject to the ipa file automatically.
+   Select a real device, and hit the "Run" button at the top-left corner of Xcode. The code your wrote and external frameworks you placed will inject to the ipa file automatically.
 
 ## Example
 
-I created a demo project, shows you how to integrate Reveal into Youtube, which can be found here:
+I created a demo project, which shows you how to integrate Reveal into Youtube, and can be found here:
 https://github.com/Naituw/IPAPatch/releases/tag/1.0
 
 ## License
