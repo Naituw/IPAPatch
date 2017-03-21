@@ -15,6 +15,7 @@
 #define ProjectConfigurationWarning_hpp
 
 #include <stdio.h>
+#include <TargetConditionals.h>
 
 // compares two strings in compile time constant fashion
 constexpr bool strings_equal(char const * a, char const * b) {
@@ -30,5 +31,8 @@ static_assert(!strings_equal(TARGET_BUNDLE_ID_STRING, "com.wutian.example"), "Yo
 // ⚠️ Note: "com.wutian.example" is placeholder bundleID for the result app, you should change it to your own and fixes the signing issues (if any), in the "IPAPatch-DummyApp - Project - General tab"
 // ⚠️ Note: The BundleDisplayName of DummyApp will used as prefix of the final name.
 
+#if TARGET_OS_SIMULATOR
+#error Simulators is not supported, Please select a real device from Xcode toolbar.
+#endif
 
 #endif /* ProjectConfigurationWarning_hpp */
