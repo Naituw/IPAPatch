@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C63AC1A51E838BB70094B1C5 /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = C63AC1A21E838BB70094B1C5 /* fishhook.c */; };
+		C63AC1A61E838BB70094B1C5 /* fishhook.h in Headers */ = {isa = PBXBuildFile; fileRef = C63AC1A31E838BB70094B1C5 /* fishhook.h */; };
+		C63AC1AA1E8392210094B1C5 /* IPAPatchBypassAntiDebugging.h in Headers */ = {isa = PBXBuildFile; fileRef = C63AC1A81E8392210094B1C5 /* IPAPatchBypassAntiDebugging.h */; };
+		C63AC1AB1E8392210094B1C5 /* IPAPatchBypassAntiDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = C63AC1A91E8392210094B1C5 /* IPAPatchBypassAntiDebugging.m */; };
 		C64288391E7BF9E900C0BBB0 /* ProjectConfigurationWarning.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64288371E7BF9E900C0BBB0 /* ProjectConfigurationWarning.cpp */; };
 		C6B263271E7BC9DF009B4DEA /* IPAPatchEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C6B263251E7BC9DF009B4DEA /* IPAPatchEntry.h */; };
 		C6B263281E7BC9DF009B4DEA /* IPAPatchEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B263261E7BC9DF009B4DEA /* IPAPatchEntry.m */; };
@@ -25,6 +29,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C63AC1A21E838BB70094B1C5 /* fishhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fishhook.c; sourceTree = "<group>"; };
+		C63AC1A31E838BB70094B1C5 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fishhook.h; sourceTree = "<group>"; };
+		C63AC1A41E838BB70094B1C5 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		C63AC1A81E8392210094B1C5 /* IPAPatchBypassAntiDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPAPatchBypassAntiDebugging.h; sourceTree = "<group>"; };
+		C63AC1A91E8392210094B1C5 /* IPAPatchBypassAntiDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPAPatchBypassAntiDebugging.m; sourceTree = "<group>"; };
 		C64288371E7BF9E900C0BBB0 /* ProjectConfigurationWarning.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectConfigurationWarning.cpp; sourceTree = "<group>"; };
 		C64288381E7BF9E900C0BBB0 /* ProjectConfigurationWarning.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ProjectConfigurationWarning.hpp; sourceTree = "<group>"; };
 		C6B263071E7BC97B009B4DEA /* IPAPatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IPAPatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,6 +66,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C63AC1A01E838B8E0094B1C5 /* Vendors */ = {
+			isa = PBXGroup;
+			children = (
+				C63AC1A11E838BB70094B1C5 /* fishhook */,
+			);
+			path = Vendors;
+			sourceTree = "<group>";
+		};
+		C63AC1A11E838BB70094B1C5 /* fishhook */ = {
+			isa = PBXGroup;
+			children = (
+				C63AC1A31E838BB70094B1C5 /* fishhook.h */,
+				C63AC1A21E838BB70094B1C5 /* fishhook.c */,
+				C63AC1A41E838BB70094B1C5 /* LICENSE */,
+			);
+			path = fishhook;
+			sourceTree = "<group>";
+		};
 		C6B262FD1E7BC97B009B4DEA = {
 			isa = PBXGroup;
 			children = (
@@ -79,9 +106,12 @@
 		C6B263091E7BC97B009B4DEA /* IPAPatch */ = {
 			isa = PBXGroup;
 			children = (
+				C63AC1A01E838B8E0094B1C5 /* Vendors */,
 				C6B2630B1E7BC97B009B4DEA /* Info.plist */,
 				C6B263251E7BC9DF009B4DEA /* IPAPatchEntry.h */,
 				C6B263261E7BC9DF009B4DEA /* IPAPatchEntry.m */,
+				C63AC1A81E8392210094B1C5 /* IPAPatchBypassAntiDebugging.h */,
+				C63AC1A91E8392210094B1C5 /* IPAPatchBypassAntiDebugging.m */,
 			);
 			path = IPAPatch;
 			sourceTree = "<group>";
@@ -123,6 +153,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6B263271E7BC9DF009B4DEA /* IPAPatchEntry.h in Headers */,
+				C63AC1A61E838BB70094B1C5 /* fishhook.h in Headers */,
+				C63AC1AA1E8392210094B1C5 /* IPAPatchBypassAntiDebugging.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,7 +276,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C63AC1AB1E8392210094B1C5 /* IPAPatchBypassAntiDebugging.m in Sources */,
 				C6B263281E7BC9DF009B4DEA /* IPAPatchEntry.m in Sources */,
+				C63AC1A51E838BB70094B1C5 /* fishhook.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
