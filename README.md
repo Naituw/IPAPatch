@@ -76,8 +76,12 @@ IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
 
 ## Example
 
-I created a demo project, which shows you how to integrate Reveal into Youtube, and can be found here:
-https://github.com/Naituw/IPAPatch/releases/tag/1.0
+I created some demo project, which shows you how to use `IPAPatch`:
+
+- Reveal + Youtube: 
+  - https://github.com/Naituw/IPAPatch/releases/tag/1.0
+- Cycript + Youtube (Idea from @phpmaple): 
+  - https://github.com/Naituw/IPAPatch/releases/tag/1.0.1
 
 ## License
 
