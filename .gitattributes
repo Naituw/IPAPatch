@@ -1,2 +1,3 @@
 patch.sh linguist-language=Objective-C
 IPAPatchBypassAntiDebugging.m linguist-language=Objective-C
+IPAPatch/Vendors/* linguist-language=Objective-C
