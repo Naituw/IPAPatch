@@ -50,18 +50,22 @@ typedef struct kinfo_proc ipa_kinfo_proc;
 
 int	hooked_sysctl(int * arg0, u_int arg1, void * arg2, size_t * arg3, void * arg4, size_t arg5)
 {
-    bool modify_needed = arg1 == 4 && arg0[0] == CTL_KERN && arg0[1] == KERN_PROC && arg0[2] == KERN_PROC_PID && arg2 && arg3 && (*arg3 >= sizeof(struct kinfo_proc));
-    
-    int ret = original_sysctl(arg0, arg1, arg2, arg3, arg4, arg5);
+    bool modify_needed = arg1 == 4 && arg0[0] == CTL_KERN && arg0[1] == KERN_PROC && arg0[2] == KERN_PROC_PID && arg2 && arg3 && (*arg3 == sizeof(ipa_kinfo_proc));
     
     if (modify_needed) {
+        
+        ipa_kinfo_proc info;
+        int ret = original_sysctl(arg0, arg1, &info, arg3, arg4, arg5);
+        info.kp_proc.p_flag ^= P_TRACED;
+        
         ipa_kinfo_proc * pointer = arg2;
-        ipa_kinfo_proc info = *pointer;
-        info.kp_proc.p_flag = 0;
         *pointer = info;
+        
+        return ret;
+        
+    } else {
+        return original_sysctl(arg0, arg1, arg2, arg3, arg4, arg5);
     }
-    
-    return ret;
 }
 
 static void disable_sysctl_debugger_checking()
