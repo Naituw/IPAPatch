@@ -2,7 +2,7 @@
 
 IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
 
-[ [Features](#features) &bull; [Instructions](#instructions) &bull; [Example](#example) &bull; [License](#license) ]
+[ [Features](#features) &bull; [Instructions](#instructions) &bull; [Example](#example) &bull; [FAQ](#faq) &bull; [License](#license) ]
 
 ## Features
 
@@ -82,6 +82,11 @@ I created some demo project, which shows you how to use `IPAPatch`:
   - https://github.com/Naituw/IPAPatch/releases/tag/1.0
 - Cycript + Youtube (Idea from @phpmaple): 
   - https://github.com/Naituw/IPAPatch/releases/tag/1.0.1
+
+## FAQ
+
+- Q: Library not loaded with reason: `mach-o, but wrong architecture` ?
+  - A: Try set `IPAPatch` target's `Valid Architectures` to match your ipa binary's architecture.
 
 ## License
 
