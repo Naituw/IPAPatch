@@ -54,12 +54,22 @@ int	hooked_sysctl(int * arg0, u_int arg1, void * arg2, size_t * arg3, void * arg
     
     if (modify_needed) {
         
-        ipa_kinfo_proc info;
-        int ret = original_sysctl(arg0, arg1, &info, arg3, arg4, arg5);
-        info.kp_proc.p_flag ^= P_TRACED;
+        bool original_p_traced = false;
+        {
+            ipa_kinfo_proc * pointer = arg2;
+            ipa_kinfo_proc info = *pointer;
+            original_p_traced = (info.kp_proc.p_flag & P_TRACED) != 0;
+        }
         
-        ipa_kinfo_proc * pointer = arg2;
-        *pointer = info;
+        int ret = original_sysctl(arg0, arg1, arg2, arg3, arg4, arg5);
+        
+        // keep P_TRACED if input value contains it
+        if (!original_p_traced) {
+            ipa_kinfo_proc * pointer = arg2;
+            ipa_kinfo_proc info = *pointer;
+            info.kp_proc.p_flag ^= P_TRACED;
+            *pointer = info;
+        }
         
         return ret;
         
