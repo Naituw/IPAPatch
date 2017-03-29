@@ -88,6 +88,9 @@ I created some demo project, which shows you how to use `IPAPatch`:
 - Q: Library not loaded with reason: `mach-o, but wrong architecture` ?
   - A: Try set `IPAPatch` target's `Valid Architectures` to match your ipa binary's architecture.
 
+- Q: process launch failed: Unspecified (Disabled) ?
+  - A: The ipa file use with IPAPatch must be decrypted, See step.2 of Instructions.
+
 ## License
 
 #### IPAPatch
