@@ -63,7 +63,41 @@ echo "TEMP_APP_PATH: $TEMP_APP_PATH"
 
 
 # ---------------------------------------------------
-# 2. Overwrite DummyApp IPA with Target App Contents
+# 2 restore symbol and integrate to Mach-O File
+
+# ---------------------------------------------------
+# 2.1 try to thin Mach-O File
+
+MACH_O_FILE_NAME=`basename $TEMP_APP_PATH .app`
+MACH_O_FILE_PATH=$TEMP_APP_PATH/$MACH_O_FILE_NAME
+echo "MACH_O_FILE_PATH: $MACH_O_FILE_PATH"
+
+lipo -thin armv7 $MACH_O_FILE_PATH -o $TEMP_PATH/"$MACH_O_FILE_NAME"_armv7
+lipo -thin arm64 $MACH_O_FILE_PATH -o $TEMP_PATH/"$MACH_O_FILE_NAME"_arm64
+
+# ---------------------------------------------------
+# 2.2 try to restore symbol by archs
+
+# Sources: https://github.com/tobefuturer/restore-symbol
+# restore symbol technique
+
+RESTORE_SYMBOL_TOOL="${SRCROOT}/Tools/restore-symbol"
+"$RESTORE_SYMBOL_TOOL" $TEMP_PATH/$"$MACH_O_FILE_NAME"_armv7 -o $TEMP_PATH/$"$MACH_O_FILE_NAME"_armv7_with_symbol
+"$RESTORE_SYMBOL_TOOL" $TEMP_PATH/$"$MACH_O_FILE_NAME"_arm64 -o $TEMP_PATH/$"$MACH_O_FILE_NAME"_arm64_with_symbol
+
+# ---------------------------------------------------
+# 2.3 reintegrate Mach-O File
+
+lipo -create $TEMP_PATH/"$MACH_O_FILE_NAME"_armv7_with_symbol $TEMP_PATH/"$MACH_O_FILE_NAME"_arm64_with_symbol -o $TEMP_PATH/"$MACH_O_FILE_NAME"_with_symbol
+
+rm -f $MACH_O_FILE_PATH
+cp $TEMP_PATH/"$MACH_O_FILE_NAME"_with_symbol $MACH_O_FILE_PATH
+
+
+
+
+# ---------------------------------------------------
+# 3. Overwrite DummyApp IPA with Target App Contents
 
 TARGET_APP_PATH="$BUILT_PRODUCTS_DIR/$TARGET_NAME.app"
 echo "TARGET_APP_PATH: $TARGET_APP_PATH"
@@ -76,7 +110,7 @@ cp -rf "$TEMP_APP_PATH/" "$TARGET_APP_PATH/"
 
 
 # ---------------------------------------------------
-# 3. Inject the Executable We Wrote and Built (IPAPatch.framework)
+# 4. Inject the Executable We Wrote and Built (IPAPatch.framework)
 
 APP_BINARY=`plutil -convert xml1 -o - $TARGET_APP_PATH/Info.plist|grep -A1 Exec|tail -n1|cut -f2 -d\>|cut -f1 -d\<`
 OPTOOL="${SRCROOT}/Tools/optool"
@@ -95,7 +129,7 @@ chmod +x "$TARGET_APP_PATH/$APP_BINARY"
 
 
 # ---------------------------------------------------
-# 4. Inject External Frameworks if Exists
+# 5. Inject External Frameworks if Exists
 
 TARGET_APP_FRAMEWORKS_PATH="$BUILT_PRODUCTS_DIR/$TARGET_NAME.app/Frameworks"
 
@@ -125,7 +159,7 @@ done
 
 
 # ---------------------------------------------------
-# 5. Remove Plugins/Watch (AppExtensions), To Simplify the Signing Process
+# 6. Remove Plugins/Watch (AppExtensions), To Simplify the Signing Process
 
 rm -rf "$TARGET_APP_PATH/PlugIns" || true
 rm -rf "$TARGET_APP_PATH/Watch" || true
