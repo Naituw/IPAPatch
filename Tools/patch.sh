@@ -80,6 +80,15 @@ cp -rf "$TEMP_APP_PATH/" "$TARGET_APP_PATH/"
 
 APP_BINARY=`plutil -convert xml1 -o - $TARGET_APP_PATH/Info.plist|grep -A1 Exec|tail -n1|cut -f2 -d\>|cut -f1 -d\<`
 OPTOOL="${SRCROOT}/Tools/optool"
+RESTORE_SYMBOL_TOOL="${SRCROOT}/Tools/restore-symbol"
+BLOCK_SYMBOL_JSON="${SRCROOT}/Assets/block_symbol.json"
+
+## Restore Symbol to Add Breakpoint on Method. (http://blog.imjun.net/posts/restore-symbol-of-iOS-app/)
+
+lipo "$TARGET_APP_PATH/$APP_BINARY" -thin arm64 -output "$TARGET_APP_PATH/$APP_BINARY"
+
+"$RESTORE_SYMBOL_TOOL" "$TARGET_APP_PATH/$APP_BINARY" -o "$TARGET_APP_PATH/EXECUTABLE_WITH_SYMBOL" -j "$BLOCK_SYMBOL_JSON"
+mv "$TARGET_APP_PATH/EXECUTABLE_WITH_SYMBOL" "$TARGET_APP_PATH/$APP_BINARY"
 
 mkdir "$TARGET_APP_PATH/Dylibs"
 cp "$BUILT_PRODUCTS_DIR/IPAPatch.framework/IPAPatch" "$TARGET_APP_PATH/Dylibs/IPAPatch"
