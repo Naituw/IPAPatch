@@ -3,8 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>RESTORE_SYMBOLS</key>
-	<false/>
-	<key>CREATE_IPA_FILE</key>
 	<true/>
+	<key>CREATE_IPA_FILE</key>
+	<false/>
 </dict>
 </plist>
