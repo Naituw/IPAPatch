@@ -6,12 +6,28 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		C6DDBB5C1F51468D00A42BE2 /* IPAPatch */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = C6DDBB5D1F51468D00A42BE2 /* Build configuration list for PBXAggregateTarget "IPAPatch" */;
+			buildPhases = (
+				C6DDBB631F5147BA00A42BE2 /* ShellScript */,
+			);
+			dependencies = (
+				C6DDBB611F51469300A42BE2 /* PBXTargetDependency */,
+			);
+			name = IPAPatch;
+			productName = IPAPatch;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		C63AC1A51E838BB70094B1C5 /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = C63AC1A21E838BB70094B1C5 /* fishhook.c */; };
 		C63AC1A61E838BB70094B1C5 /* fishhook.h in Headers */ = {isa = PBXBuildFile; fileRef = C63AC1A31E838BB70094B1C5 /* fishhook.h */; };
 		C63AC1AA1E8392210094B1C5 /* IPAPatchBypassAntiDebugging.h in Headers */ = {isa = PBXBuildFile; fileRef = C63AC1A81E8392210094B1C5 /* IPAPatchBypassAntiDebugging.h */; };
 		C63AC1AB1E8392210094B1C5 /* IPAPatchBypassAntiDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = C63AC1A91E8392210094B1C5 /* IPAPatchBypassAntiDebugging.m */; };
 		C64288391E7BF9E900C0BBB0 /* ProjectConfigurationWarning.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64288371E7BF9E900C0BBB0 /* ProjectConfigurationWarning.cpp */; };
+		C6A353E21F51367500A9E30D /* options.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6A353E11F51367500A9E30D /* options.plist */; };
 		C6B263271E7BC9DF009B4DEA /* IPAPatchEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C6B263251E7BC9DF009B4DEA /* IPAPatchEntry.h */; };
 		C6B263281E7BC9DF009B4DEA /* IPAPatchEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B263261E7BC9DF009B4DEA /* IPAPatchEntry.m */; };
 		C6B2634D1E7BCB31009B4DEA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B2634C1E7BCB31009B4DEA /* main.m */; };
@@ -26,6 +42,13 @@
 			remoteGlobalIDString = C6B263061E7BC97B009B4DEA;
 			remoteInfo = IPAPatch;
 		};
+		C6DDBB601F51469300A42BE2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C6B262FE1E7BC97B009B4DEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C6B263481E7BCB31009B4DEA;
+			remoteInfo = "IPAPatch-DummyApp";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -36,7 +59,8 @@
 		C63AC1A91E8392210094B1C5 /* IPAPatchBypassAntiDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPAPatchBypassAntiDebugging.m; sourceTree = "<group>"; };
 		C64288371E7BF9E900C0BBB0 /* ProjectConfigurationWarning.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectConfigurationWarning.cpp; sourceTree = "<group>"; };
 		C64288381E7BF9E900C0BBB0 /* ProjectConfigurationWarning.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ProjectConfigurationWarning.hpp; sourceTree = "<group>"; };
-		C6B263071E7BC97B009B4DEA /* IPAPatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IPAPatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6A353E11F51367500A9E30D /* options.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = options.plist; sourceTree = "<group>"; };
+		C6B263071E7BC97B009B4DEA /* IPAPatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = IPAPatch.framework; path = IPAPatchFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6B2630B1E7BC97B009B4DEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6B263251E7BC9DF009B4DEA /* IPAPatchEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPAPatchEntry.h; sourceTree = "<group>"; };
 		C6B263261E7BC9DF009B4DEA /* IPAPatchEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPAPatchEntry.m; sourceTree = "<group>"; };
@@ -46,6 +70,7 @@
 		C6B2634F1E7BCB31009B4DEA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C6B2635C1E7BCB31009B4DEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6B263621E7BCD03009B4DEA /* patch.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = patch.sh; sourceTree = "<group>"; };
+		C6DDBB621F5146AD00A42BE2 /* create_ipa.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = create_ipa.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +145,8 @@
 			isa = PBXGroup;
 			children = (
 				C6B263621E7BCD03009B4DEA /* patch.sh */,
+				C6DDBB621F5146AD00A42BE2 /* create_ipa.sh */,
+				C6A353E11F51367500A9E30D /* options.plist */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -161,9 +188,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		C6B263061E7BC97B009B4DEA /* IPAPatch */ = {
+		C6B263061E7BC97B009B4DEA /* IPAPatchFramework */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C6B2631B1E7BC97B009B4DEA /* Build configuration list for PBXNativeTarget "IPAPatch" */;
+			buildConfigurationList = C6B2631B1E7BC97B009B4DEA /* Build configuration list for PBXNativeTarget "IPAPatchFramework" */;
 			buildPhases = (
 				C6B263021E7BC97B009B4DEA /* Sources */,
 				C6B263031E7BC97B009B4DEA /* Frameworks */,
@@ -174,7 +201,7 @@
 			);
 			dependencies = (
 			);
-			name = IPAPatch;
+			name = IPAPatchFramework;
 			productName = IPAPatch;
 			productReference = C6B263071E7BC97B009B4DEA /* IPAPatch.framework */;
 			productType = "com.apple.product-type.framework";
@@ -214,8 +241,11 @@
 					};
 					C6B263481E7BCB31009B4DEA = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = DMJXDB9H6Q;
 						ProvisioningStyle = Automatic;
+					};
+					C6DDBB5C1F51468D00A42BE2 = {
+						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = DMJXDB9H6Q;
 					};
 				};
 			};
@@ -233,7 +263,8 @@
 			projectRoot = "";
 			targets = (
 				C6B263481E7BCB31009B4DEA /* IPAPatch-DummyApp */,
-				C6B263061E7BC97B009B4DEA /* IPAPatch */,
+				C6B263061E7BC97B009B4DEA /* IPAPatchFramework */,
+				C6DDBB5C1F51468D00A42BE2 /* IPAPatch */,
 			);
 		};
 /* End PBXProject section */
@@ -250,6 +281,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6A353E21F51367500A9E30D /* options.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +300,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Tools/patch.sh\"";
+		};
+		C6DDBB631F5147BA00A42BE2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Tools/create_ipa.sh\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -297,8 +342,13 @@
 /* Begin PBXTargetDependency section */
 		C6B263611E7BCC65009B4DEA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C6B263061E7BC97B009B4DEA /* IPAPatch */;
+			target = C6B263061E7BC97B009B4DEA /* IPAPatchFramework */;
 			targetProxy = C6B263601E7BCC65009B4DEA /* PBXContainerItemProxy */;
+		};
+		C6DDBB611F51469300A42BE2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C6B263481E7BCB31009B4DEA /* IPAPatch-DummyApp */;
+			targetProxy = C6DDBB601F51469300A42BE2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -446,7 +496,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
-				DEVELOPMENT_TEAM = DMJXDB9H6Q;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -458,6 +510,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wutian.example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -465,13 +520,34 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
-				DEVELOPMENT_TEAM = DMJXDB9H6Q;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = "TARGET_BUNDLE_ID=$(PRODUCT_BUNDLE_IDENTIFIER)";
 				INFOPLIST_FILE = "IPAPatch-DummyApp/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wutian.example;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		C6DDBB5E1F51468D00A42BE2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = DMJXDB9H6Q;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C6DDBB5F1F51468D00A42BE2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = DMJXDB9H6Q;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -488,7 +564,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C6B2631B1E7BC97B009B4DEA /* Build configuration list for PBXNativeTarget "IPAPatch" */ = {
+		C6B2631B1E7BC97B009B4DEA /* Build configuration list for PBXNativeTarget "IPAPatchFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C6B2631C1E7BC97B009B4DEA /* Debug */,
@@ -502,6 +578,15 @@
 			buildConfigurations = (
 				C6B2635E1E7BCB31009B4DEA /* Debug */,
 				C6B2635F1E7BCB31009B4DEA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C6DDBB5D1F51468D00A42BE2 /* Build configuration list for PBXAggregateTarget "IPAPatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6DDBB5E1F51468D00A42BE2 /* Debug */,
+				C6DDBB5F1F51468D00A42BE2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

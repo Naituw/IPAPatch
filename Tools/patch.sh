@@ -27,16 +27,17 @@
 
 
 TEMP_PATH="${SRCROOT}/Temp"
+OPTIONS_PATH="${SRCROOT}/Tools/options.plist"
 ASSETS_PATH="${SRCROOT}/Assets"
 TARGET_IPA_PATH="${ASSETS_PATH}/app.ipa"
 FRAMEWORKS_TO_INJECT_PATH="${ASSETS_PATH}/Frameworks"
 
 DUMMY_DISPLAY_NAME="" # To be found in Step 0
 TARGET_BUNDLE_ID="" # To be found in Step 0
+RESTORE_SYMBOLS=false
 TEMP_APP_PATH=""   # To be found in Step 1
-TARGET_APP_PATH="" # To be found in Step 2
-TARGET_APP_FRAMEWORKS_PATH="" # To be found in Step 4
-
+TARGET_APP_PATH="" # To be found in Step 3
+TARGET_APP_FRAMEWORKS_PATH="" # To be found in Step 5
 
 
 # ---------------------------------------------------
@@ -47,6 +48,11 @@ mkdir -p "$TEMP_PATH" || true
 
 DUMMY_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c "Print CFBundleDisplayName"  "${SRCROOT}/$TARGET_NAME/Info.plist")
 echo "DUMMY_DISPLAY_NAME: $DUMMY_DISPLAY_NAME"
+
+RESTORE_SYMBOLS=$(/usr/libexec/PlistBuddy -c "Print RESTORE_SYMBOLS"  "${OPTIONS_PATH}")
+
+echo "RESTORE_SYMBOLS: $RESTORE_SYMBOLS"
+echo "CREATE_IPA_FILE: $CREATE_IPA_FILE"
 
 TARGET_BUNDLE_ID="$PRODUCT_BUNDLE_IDENTIFIER"
 echo "TARGET_BUNDLE_ID: $TARGET_BUNDLE_ID"
@@ -65,35 +71,37 @@ echo "TEMP_APP_PATH: $TEMP_APP_PATH"
 # ---------------------------------------------------
 # 2 restore symbol and integrate to Mach-O File
 
-# ---------------------------------------------------
-# 2.1 try to thin Mach-O File
+if [ "$RESTORE_SYMBOLS" = true ]; then
 
-MACH_O_FILE_NAME=`basename $TEMP_APP_PATH .app`
-MACH_O_FILE_PATH=$TEMP_APP_PATH/$MACH_O_FILE_NAME
-echo "MACH_O_FILE_PATH: $MACH_O_FILE_PATH"
+    # ---------------------------------------------------
+    # 2.1 try to thin Mach-O File
 
-lipo -thin armv7 $MACH_O_FILE_PATH -o $TEMP_PATH/"$MACH_O_FILE_NAME"_armv7
-lipo -thin arm64 $MACH_O_FILE_PATH -o $TEMP_PATH/"$MACH_O_FILE_NAME"_arm64
+    MACH_O_FILE_NAME=`basename $TEMP_APP_PATH .app`
+    MACH_O_FILE_PATH=$TEMP_APP_PATH/$MACH_O_FILE_NAME
+    echo "MACH_O_FILE_PATH: $MACH_O_FILE_PATH"
 
-# ---------------------------------------------------
-# 2.2 try to restore symbol by archs
+    lipo -thin armv7 $MACH_O_FILE_PATH -o $TEMP_PATH/"$MACH_O_FILE_NAME"_armv7
+    lipo -thin arm64 $MACH_O_FILE_PATH -o $TEMP_PATH/"$MACH_O_FILE_NAME"_arm64
 
-# Sources: https://github.com/tobefuturer/restore-symbol
-# restore symbol technique
+    # ---------------------------------------------------
+    # 2.2 try to restore symbol by archs
 
-RESTORE_SYMBOL_TOOL="${SRCROOT}/Tools/restore-symbol"
-"$RESTORE_SYMBOL_TOOL" $TEMP_PATH/$"$MACH_O_FILE_NAME"_armv7 -o $TEMP_PATH/$"$MACH_O_FILE_NAME"_armv7_with_symbol
-"$RESTORE_SYMBOL_TOOL" $TEMP_PATH/$"$MACH_O_FILE_NAME"_arm64 -o $TEMP_PATH/$"$MACH_O_FILE_NAME"_arm64_with_symbol
+    # Sources: https://github.com/tobefuturer/restore-symbol
+    # restore symbol technique
 
-# ---------------------------------------------------
-# 2.3 reintegrate Mach-O File
+    RESTORE_SYMBOL_TOOL="${SRCROOT}/Tools/restore-symbol"
+    "$RESTORE_SYMBOL_TOOL" $TEMP_PATH/$"$MACH_O_FILE_NAME"_armv7 -o $TEMP_PATH/$"$MACH_O_FILE_NAME"_armv7_with_symbol
+    "$RESTORE_SYMBOL_TOOL" $TEMP_PATH/$"$MACH_O_FILE_NAME"_arm64 -o $TEMP_PATH/$"$MACH_O_FILE_NAME"_arm64_with_symbol
 
-lipo -create $TEMP_PATH/"$MACH_O_FILE_NAME"_armv7_with_symbol $TEMP_PATH/"$MACH_O_FILE_NAME"_arm64_with_symbol -o $TEMP_PATH/"$MACH_O_FILE_NAME"_with_symbol
+    # ---------------------------------------------------
+    # 2.3 reintegrate Mach-O File
 
-rm -f $MACH_O_FILE_PATH
-cp $TEMP_PATH/"$MACH_O_FILE_NAME"_with_symbol $MACH_O_FILE_PATH
+    lipo -create $TEMP_PATH/"$MACH_O_FILE_NAME"_armv7_with_symbol $TEMP_PATH/"$MACH_O_FILE_NAME"_arm64_with_symbol -o $TEMP_PATH/"$MACH_O_FILE_NAME"_with_symbol
 
+    rm -f $MACH_O_FILE_PATH
+    cp $TEMP_PATH/"$MACH_O_FILE_NAME"_with_symbol $MACH_O_FILE_PATH
 
+fi # [ "$RESTORE_SYMBOLS" ]
 
 
 # ---------------------------------------------------
@@ -110,13 +118,13 @@ cp -rf "$TEMP_APP_PATH/" "$TARGET_APP_PATH/"
 
 
 # ---------------------------------------------------
-# 4. Inject the Executable We Wrote and Built (IPAPatch.framework)
+# 4. Inject the Executable We Wrote and Built (IPAPatchFramework.framework)
 
 APP_BINARY=`plutil -convert xml1 -o - $TARGET_APP_PATH/Info.plist|grep -A1 Exec|tail -n1|cut -f2 -d\>|cut -f1 -d\<`
 OPTOOL="${SRCROOT}/Tools/optool"
 
 mkdir "$TARGET_APP_PATH/Dylibs"
-cp "$BUILT_PRODUCTS_DIR/IPAPatch.framework/IPAPatch" "$TARGET_APP_PATH/Dylibs/IPAPatch"
+cp "$BUILT_PRODUCTS_DIR/IPAPatchFramework.framework/IPAPatchFramework" "$TARGET_APP_PATH/Dylibs/IPAPatchFramework"
 for file in `ls -1 "$TARGET_APP_PATH/Dylibs"`; do
     echo -n '     '
     echo "Install Load: $file -> @executable_path/Dylibs/$file"
@@ -200,10 +208,10 @@ fi
 
 
 
+
 # ---------------------------------------------------
 # 9. Install
 #
 #    Nothing To Do, Xcode Will Automatically Install the DummyApp We Overwrited
-
 
 
