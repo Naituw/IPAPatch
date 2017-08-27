@@ -38,6 +38,14 @@ IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
   >
   > <a href="https://camo.githubusercontent.com/ee35f8ef1c935174bb84b66f7e8888b0e0bee95f/687474703a2f2f7778322e73696e61696d672e636e2f6c617267652f62656265646262356c7931666472656271336667756a32306f703064627138702e6a7067" target="_blank"><img src="https://camo.githubusercontent.com/ee35f8ef1c935174bb84b66f7e8888b0e0bee95f/687474703a2f2f7778322e73696e61696d672e636e2f6c617267652f62656265646262356c7931666472656271336667756a32306f703064627138702e6a7067" alt="Youtube Integrated Reveal" data-canonical-src="http://wx2.sinaimg.cn/large/bebedbb5ly1fdrebq3fguj20op0dbq8p.jpg" style="max-width:100%;" width="540px"></a>
 
+- **Generate distributable .ipa files**
+
+  You can generate modified version of ipa files very easily. So you can distribute your patch/work to your friends.
+
+    > *Modified version of Facebook.ipa created by IPAPatch*
+    >
+    > ![](http://wx1.sinaimg.cn/large/bebedbb5ly1fiyawu5q36j20gt07fgmr.jpg)
+
 ## Instructions
 
 1. **Clone or Download This Project**
@@ -52,11 +60,19 @@ IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
 
    Replace the IPA file located at `IPAPatch/Assets/app.ipa` with yours, this is a placeholder file. The filename should remain `app.ipa` after replacing.
   
-4. **Place External Frameworks (Optional)**
-  
-   External frameworks can be placed at `IPAPatch/Assets/Frameworks` folder. Frameworks will be linked automatically.
-  
-   For example `IPAPatch/Assets/Frameworks/RevealServer.framework`
+4. **Place External Resources/Frameworks (Optional)**
+   
+   Follow types of external file are supported:
+   - **Frameworks**: 
+     - External frameworks can be placed at `IPAPatch/Assets/Frameworks` folder. 
+     - Frameworks will be linked automatically.     
+     - For example `IPAPatch/Assets/Frameworks/RevealServer.framework`
+   - **Dynamic Libraries**: 
+     - External dynamic libraries can be placed at `IPAPatch/Assets/Dylibs` folder. 
+     - Libraries will be linked automatically
+   - **Resources/Bundles**: 
+     - Other resources or bundles can be placed at `IPAPatch/Assets/Resources`
+     - Resources will be copied directly to the main bundle of original app
   
 5. **Configure Build Settings**
 
@@ -66,11 +82,21 @@ IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
    - Change `Bundle Identifier` to match your provisioning profiles
    - Fix signing issues if any.
 
-6. **Code Your Patch**
+6. **Configure IPPatch Options**
+
+   - You can config IPAPatch's behavior with `Tools/options.plist`
+   
+        | Name | Description | Default |
+        | --- | --- | --- |
+        | RESTORE_SYMBOLS  | When `YES`, IPAPatch will try to restore symbol table from Mach-O for debugging propose (thanks to @henrayluo and @dannion) | YES |
+        | CREATE_IPA_FILE | When `YES`, IPAPatch will generate a ipa file on each build. Genrated file is located at `SRCROOT/Product` | NO |
+
+
+7. **Code Your Patch**
 
    The entry is at `+[IPAPatchEntry load]`, you can write code start from here. To change apps' behavior, You may need to use some method swizzling library, such as [steipete/Aspects](https://github.com/steipete/Aspects).
 
-7. **Build and Run**
+8. **Build and Run**
 
    Select a real device, and hit the "Run" button at the top-left corner of Xcode. The code your wrote and external frameworks you placed will inject to the ipa file automatically.
 
