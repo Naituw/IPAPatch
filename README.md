@@ -40,7 +40,7 @@ IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
 
 - **Generate distributable .ipa files**
 
-  You can generate modified version of ipa files very easily. So you can distribute your patch/work to your friends.
+  You can distribute your patch/work to your friends very easily, with IPAPatch generated modified version of .ipa files
 
     > *Modified version of Facebook.ipa created by IPAPatch*
     >
