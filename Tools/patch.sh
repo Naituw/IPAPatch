@@ -25,12 +25,13 @@
 #
 #  Created by wutian on 2017/3/17.
 
-
 TEMP_PATH="${SRCROOT}/Temp"
 OPTIONS_PATH="${SRCROOT}/Tools/options.plist"
 ASSETS_PATH="${SRCROOT}/Assets"
 TARGET_IPA_PATH="${ASSETS_PATH}/app.ipa"
 FRAMEWORKS_TO_INJECT_PATH="${ASSETS_PATH}/Frameworks"
+RESOURCES_TO_INJECT_PATH="${ASSETS_PATH}/Resources"
+DYLIBS_TO_INJECT_PATH="${ASSETS_PATH}/Dylibs"
 
 DUMMY_DISPLAY_NAME="" # To be found in Step 0
 TARGET_BUNDLE_ID="" # To be found in Step 0
@@ -137,8 +138,33 @@ chmod +x "$TARGET_APP_PATH/$APP_BINARY"
 
 
 # ---------------------------------------------------
-# 5. Inject External Frameworks if Exists
+# 5. Inject External Files if Exists
 
+CopySwiftStdLib () {
+	source_file=$1
+	target_dir=$2
+
+	otool -L $source_file | while read -r line ; do
+		if [[ $line = "@rpath/libswift"* ]]; then
+			re="@rpath\/(libswift[^[:space:]]+.dylib)[[:space:]]";
+			if [[ $line =~ $re ]]; then
+				LIBNAME=${BASH_REMATCH[1]};
+				if ! [ -e "$target_dir/$LIBNAME" ]; then
+					LIB_SOURCE_PATH="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/${LIBNAME}"
+					if [ -e $LIB_SOURCE_PATH ]; then
+						echo "Copying $LIBNAME: $LIB_SOURCE_PATH"
+						cp -rf "$LIB_SOURCE_PATH" "$target_dir"
+
+						# resolve nested dependecies
+						CopySwiftStdLib "$target_dir/$LIBNAME" "$target_dir"
+					fi
+				fi 
+			fi
+		fi
+	done
+}
+
+# 5-1. Inject External Frameworks if Exists
 TARGET_APP_FRAMEWORKS_PATH="$BUILT_PRODUCTS_DIR/$TARGET_NAME.app/Frameworks"
 
 echo "Injecting Frameworks from $FRAMEWORKS_TO_INJECT_PATH"
@@ -151,17 +177,41 @@ for file in `ls -1 "${FRAMEWORKS_TO_INJECT_PATH}"`; do
         continue
     fi
 
+    mkdir -p "$TARGET_APP_FRAMEWORKS_PATH"
+    rsync -av --exclude=".*" "${FRAMEWORKS_TO_INJECT_PATH}/$file" "$TARGET_APP_FRAMEWORKS_PATH"
     filename="${file%.*}"
 
-    cp "$FRAMEWORKS_TO_INJECT_PATH/$file/$filename" "$TARGET_APP_PATH/Dylibs/$filename"
+    echo -n '     '
+    echo "Install Load: $file -> @executable_path/Frameworks/$file/$filename"
+
+    "$OPTOOL" install -c load -p "@executable_path/Frameworks/$file/$filename" -t "$TARGET_APP_PATH/$APP_BINARY"
+
+    CopySwiftStdLib "$TARGET_APP_FRAMEWORKS_PATH/$file/$filename" "$TARGET_APP_FRAMEWORKS_PATH"
+done
+
+# 5-2. Inject Dylibs if Exists
+echo "Injecting Dylibs from $DYLIBS_TO_INJECT_PATH"
+for file in `ls -1 "${DYLIBS_TO_INJECT_PATH}"`; do
+    if [[ $file = "."* ]]; then
+        continue
+    fi
+
+    filename="${file%.*}"
+   	cp "$DYLIBS_TO_INJECT_PATH/$filename" "$TARGET_APP_PATH/Dylibs/$filename"
 
     echo -n '     '
-    echo "Install Load: $file -> @executable_path/Dylibs/$filename"
-
-    echo "TARGET: $TARGET_APP_PATH"
-
+	echo "Install Load: $file -> @executable_path/Dylibs/$filename"
+	
     "$OPTOOL" install -c load -p "@executable_path/Dylibs/$filename" -t "$TARGET_APP_PATH/$APP_BINARY"
+
+    CopySwiftStdLib "$TARGET_APP_PATH/Dylibs/$filename" "$TARGET_APP_FRAMEWORKS_PATH"
 done
+
+# 5-3. Inject External Resources if Exists
+echo "Injecting Resources from $RESOURCES_TO_INJECT_PATH"
+rsync -av --exclude=".*" "${RESOURCES_TO_INJECT_PATH}/" "$TARGET_APP_PATH"
+
+
 
 
 
@@ -169,6 +219,7 @@ done
 # ---------------------------------------------------
 # 6. Remove Plugins/Watch (AppExtensions), To Simplify the Signing Process
 
+echo "Removing AppExtensions"
 rm -rf "$TARGET_APP_PATH/PlugIns" || true
 rm -rf "$TARGET_APP_PATH/Watch" || true
 
@@ -178,6 +229,7 @@ rm -rf "$TARGET_APP_PATH/Watch" || true
 # ---------------------------------------------------
 # 7. Update Info.plist for Target App
 
+echo "Updating BundleID:$PRODUCT_BUNDLE_IDENTIFIER, DisplayName:$TARGET_DISPLAY_NAME"
 TARGET_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c "Print CFBundleDisplayName"  "$TARGET_APP_PATH/Info.plist")
 TARGET_DISPLAY_NAME="$DUMMY_DISPLAY_NAME$TARGET_DISPLAY_NAME"
 
@@ -189,12 +241,14 @@ TARGET_DISPLAY_NAME="$DUMMY_DISPLAY_NAME$TARGET_DISPLAY_NAME"
 # ---------------------------------------------------
 # 8. Code Sign All The Things
 
+echo "Code Signing Dylibs"
 for DYLIB in "$TARGET_APP_PATH/Dylibs/"*
 do
     FILENAME=$(basename $DYLIB)
     /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" "$DYLIB"
 done
 
+echo "Code Signing Frameworks"
 if [ -d "$TARGET_APP_FRAMEWORKS_PATH" ]; then
 for FRAMEWORK in "$TARGET_APP_FRAMEWORKS_PATH/"*
 do
@@ -203,6 +257,7 @@ do
 done
 fi
 
+echo "Code Signing App Binary"
 /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --timestamp=none "$TARGET_APP_PATH/$APP_BINARY"
 
 
@@ -213,5 +268,5 @@ fi
 # 9. Install
 #
 #    Nothing To Do, Xcode Will Automatically Install the DummyApp We Overwrited
-
+echo "Done"
 

@@ -91,6 +91,9 @@ I created some demo project, which shows you how to use `IPAPatch`:
 - Q: process launch failed: Unspecified (Disabled) ?
   - A: The ipa file use with IPAPatch must be decrypted, See step.2 of Instructions.
 
+- Q: dyld: Symbol not found: XXX, Referenced from: XXX, Expected in: XXX/libswiftXXX.dylib
+  - The swift version the framework you injecting use, is incompatible with the version of your Xcode
+
 ## License
 
 #### IPAPatch
