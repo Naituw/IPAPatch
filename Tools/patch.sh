@@ -40,7 +40,6 @@ TEMP_APP_PATH=""   # To be found in Step 1
 TARGET_APP_PATH="" # To be found in Step 3
 TARGET_APP_FRAMEWORKS_PATH="" # To be found in Step 5
 
-
 # ---------------------------------------------------
 # 0. Prepare Working Enviroment
 
@@ -74,33 +73,33 @@ echo "TEMP_APP_PATH: $TEMP_APP_PATH"
 
 if [ "$RESTORE_SYMBOLS" = true ]; then
 
-    # ---------------------------------------------------
-    # 2.1 try to thin Mach-O File
+# ---------------------------------------------------
+# 2.1 try to thin Mach-O File
 
-    MACH_O_FILE_NAME=`basename $TEMP_APP_PATH .app`
-    MACH_O_FILE_PATH=$TEMP_APP_PATH/$MACH_O_FILE_NAME
-    echo "MACH_O_FILE_PATH: $MACH_O_FILE_PATH"
+MACH_O_FILE_NAME=`basename $TEMP_APP_PATH .app`
+MACH_O_FILE_PATH=$TEMP_APP_PATH/$MACH_O_FILE_NAME
+echo "MACH_O_FILE_PATH: $MACH_O_FILE_PATH"
 
-    lipo -thin armv7 $MACH_O_FILE_PATH -o $TEMP_PATH/"$MACH_O_FILE_NAME"_armv7
-    lipo -thin arm64 $MACH_O_FILE_PATH -o $TEMP_PATH/"$MACH_O_FILE_NAME"_arm64
+lipo -thin armv7 $MACH_O_FILE_PATH -o $TEMP_PATH/"$MACH_O_FILE_NAME"_armv7
+lipo -thin arm64 $MACH_O_FILE_PATH -o $TEMP_PATH/"$MACH_O_FILE_NAME"_arm64
 
-    # ---------------------------------------------------
-    # 2.2 try to restore symbol by archs
+# ---------------------------------------------------
+# 2.2 try to restore symbol by archs
 
-    # Sources: https://github.com/tobefuturer/restore-symbol
-    # restore symbol technique
+# Sources: https://github.com/tobefuturer/restore-symbol
+# restore symbol technique
 
-    RESTORE_SYMBOL_TOOL="${SRCROOT}/Tools/restore-symbol"
-    "$RESTORE_SYMBOL_TOOL" $TEMP_PATH/$"$MACH_O_FILE_NAME"_armv7 -o $TEMP_PATH/$"$MACH_O_FILE_NAME"_armv7_with_symbol
-    "$RESTORE_SYMBOL_TOOL" $TEMP_PATH/$"$MACH_O_FILE_NAME"_arm64 -o $TEMP_PATH/$"$MACH_O_FILE_NAME"_arm64_with_symbol
+RESTORE_SYMBOL_TOOL="${SRCROOT}/Tools/restore-symbol"
+"$RESTORE_SYMBOL_TOOL" $TEMP_PATH/$"$MACH_O_FILE_NAME"_armv7 -o $TEMP_PATH/$"$MACH_O_FILE_NAME"_armv7_with_symbol
+"$RESTORE_SYMBOL_TOOL" $TEMP_PATH/$"$MACH_O_FILE_NAME"_arm64 -o $TEMP_PATH/$"$MACH_O_FILE_NAME"_arm64_with_symbol
 
-    # ---------------------------------------------------
-    # 2.3 reintegrate Mach-O File
+# ---------------------------------------------------
+# 2.3 reintegrate Mach-O File
 
-    lipo -create $TEMP_PATH/"$MACH_O_FILE_NAME"_armv7_with_symbol $TEMP_PATH/"$MACH_O_FILE_NAME"_arm64_with_symbol -o $TEMP_PATH/"$MACH_O_FILE_NAME"_with_symbol
+lipo -create $TEMP_PATH/"$MACH_O_FILE_NAME"_armv7_with_symbol $TEMP_PATH/"$MACH_O_FILE_NAME"_arm64_with_symbol -o $TEMP_PATH/"$MACH_O_FILE_NAME"_with_symbol
 
-    rm -f $MACH_O_FILE_PATH
-    cp $TEMP_PATH/"$MACH_O_FILE_NAME"_with_symbol $MACH_O_FILE_PATH
+rm -f $MACH_O_FILE_PATH
+cp $TEMP_PATH/"$MACH_O_FILE_NAME"_with_symbol $MACH_O_FILE_PATH
 
 fi # [ "$RESTORE_SYMBOLS" ]
 
@@ -127,9 +126,9 @@ OPTOOL="${SRCROOT}/Tools/optool"
 mkdir "$TARGET_APP_PATH/Dylibs"
 cp "$BUILT_PRODUCTS_DIR/IPAPatchFramework.framework/IPAPatchFramework" "$TARGET_APP_PATH/Dylibs/IPAPatchFramework"
 for file in `ls -1 "$TARGET_APP_PATH/Dylibs"`; do
-    echo -n '     '
-    echo "Install Load: $file -> @executable_path/Dylibs/$file"
-    "$OPTOOL" install -c load -p "@executable_path/Dylibs/$file" -t "$TARGET_APP_PATH/$APP_BINARY"
+echo -n '     '
+echo "Install Load: $file -> @executable_path/Dylibs/$file"
+"$OPTOOL" install -c load -p "@executable_path/Dylibs/$file" -t "$TARGET_APP_PATH/$APP_BINARY"
 done
 
 chmod +x "$TARGET_APP_PATH/$APP_BINARY"
@@ -141,27 +140,27 @@ chmod +x "$TARGET_APP_PATH/$APP_BINARY"
 # 5. Inject External Files if Exists
 
 CopySwiftStdLib () {
-	source_file=$1
-	target_dir=$2
+source_file=$1
+target_dir=$2
 
-	otool -L $source_file | while read -r line ; do
-		if [[ $line = "@rpath/libswift"* ]]; then
-			re="@rpath\/(libswift[^[:space:]]+.dylib)[[:space:]]";
-			if [[ $line =~ $re ]]; then
-				LIBNAME=${BASH_REMATCH[1]};
-				if ! [ -e "$target_dir/$LIBNAME" ]; then
-					LIB_SOURCE_PATH="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/${LIBNAME}"
-					if [ -e $LIB_SOURCE_PATH ]; then
-						echo "Copying $LIBNAME: $LIB_SOURCE_PATH"
-						cp -rf "$LIB_SOURCE_PATH" "$target_dir"
+otool -L $source_file | while read -r line ; do
+if [[ $line = "@rpath/libswift"* ]]; then
+re="@rpath\/(libswift[^[:space:]]+.dylib)[[:space:]]";
+if [[ $line =~ $re ]]; then
+LIBNAME=${BASH_REMATCH[1]};
+if ! [ -e "$target_dir/$LIBNAME" ]; then
+LIB_SOURCE_PATH="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/${LIBNAME}"
+if [ -e $LIB_SOURCE_PATH ]; then
+echo "Copying $LIBNAME: $LIB_SOURCE_PATH"
+cp -rf "$LIB_SOURCE_PATH" "$target_dir"
 
-						# resolve nested dependecies
-						CopySwiftStdLib "$target_dir/$LIBNAME" "$target_dir"
-					fi
-				fi 
-			fi
-		fi
-	done
+# resolve nested dependecies
+CopySwiftStdLib "$target_dir/$LIBNAME" "$target_dir"
+fi
+fi
+fi
+fi
+done
 }
 
 # 5-1. Inject External Frameworks if Exists
@@ -169,42 +168,42 @@ TARGET_APP_FRAMEWORKS_PATH="$BUILT_PRODUCTS_DIR/$TARGET_NAME.app/Frameworks"
 
 echo "Injecting Frameworks from $FRAMEWORKS_TO_INJECT_PATH"
 for file in `ls -1 "${FRAMEWORKS_TO_INJECT_PATH}"`; do
-    extension="${file##*.}"
-    echo "$file 's extension is $extension"
+extension="${file##*.}"
+echo "$file 's extension is $extension"
 
-    if [ "$extension" != "framework" ]
-    then
-        continue
-    fi
+if [ "$extension" != "framework" ]
+then
+continue
+fi
 
-    mkdir -p "$TARGET_APP_FRAMEWORKS_PATH"
-    rsync -av --exclude=".*" "${FRAMEWORKS_TO_INJECT_PATH}/$file" "$TARGET_APP_FRAMEWORKS_PATH"
-    filename="${file%.*}"
+mkdir -p "$TARGET_APP_FRAMEWORKS_PATH"
+rsync -av --exclude=".*" "${FRAMEWORKS_TO_INJECT_PATH}/$file" "$TARGET_APP_FRAMEWORKS_PATH"
+filename="${file%.*}"
 
-    echo -n '     '
-    echo "Install Load: $file -> @executable_path/Frameworks/$file/$filename"
+echo -n '     '
+echo "Install Load: $file -> @executable_path/Frameworks/$file/$filename"
 
-    "$OPTOOL" install -c load -p "@executable_path/Frameworks/$file/$filename" -t "$TARGET_APP_PATH/$APP_BINARY"
+"$OPTOOL" install -c load -p "@executable_path/Frameworks/$file/$filename" -t "$TARGET_APP_PATH/$APP_BINARY"
 
-    CopySwiftStdLib "$TARGET_APP_FRAMEWORKS_PATH/$file/$filename" "$TARGET_APP_FRAMEWORKS_PATH"
+CopySwiftStdLib "$TARGET_APP_FRAMEWORKS_PATH/$file/$filename" "$TARGET_APP_FRAMEWORKS_PATH"
 done
 
 # 5-2. Inject Dylibs if Exists
 echo "Injecting Dylibs from $DYLIBS_TO_INJECT_PATH"
 for file in `ls -1 "${DYLIBS_TO_INJECT_PATH}"`; do
-    if [[ $file = "."* ]]; then
-        continue
-    fi
+if [[ $file = "."* ]]; then
+continue
+fi
 
-    filename="${file%.*}"
-   	cp "$DYLIBS_TO_INJECT_PATH/$filename" "$TARGET_APP_PATH/Dylibs/$filename"
+filename="${file%.*}"
+cp "$DYLIBS_TO_INJECT_PATH/$filename" "$TARGET_APP_PATH/Dylibs/$filename"
 
-    echo -n '     '
-	echo "Install Load: $file -> @executable_path/Dylibs/$filename"
-	
-    "$OPTOOL" install -c load -p "@executable_path/Dylibs/$filename" -t "$TARGET_APP_PATH/$APP_BINARY"
+echo -n '     '
+echo "Install Load: $file -> @executable_path/Dylibs/$filename"
 
-    CopySwiftStdLib "$TARGET_APP_PATH/Dylibs/$filename" "$TARGET_APP_FRAMEWORKS_PATH"
+"$OPTOOL" install -c load -p "@executable_path/Dylibs/$filename" -t "$TARGET_APP_PATH/$APP_BINARY"
+
+CopySwiftStdLib "$TARGET_APP_PATH/Dylibs/$filename" "$TARGET_APP_FRAMEWORKS_PATH"
 done
 
 # 5-3. Inject External Resources if Exists
@@ -242,26 +241,31 @@ TARGET_DISPLAY_NAME="$DUMMY_DISPLAY_NAME$TARGET_DISPLAY_NAME"
 # 8. Code Sign All The Things
 
 echo "Code Signing Dylibs"
+
 for DYLIB in "$TARGET_APP_PATH/Dylibs/"*
 do
-    FILENAME=$(basename $DYLIB)
-    /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" "$DYLIB"
+FILENAME=$(basename $DYLIB)
+/usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" "$DYLIB"
 done
 
 echo "Code Signing Frameworks"
 if [ -d "$TARGET_APP_FRAMEWORKS_PATH" ]; then
 for FRAMEWORK in "$TARGET_APP_FRAMEWORKS_PATH/"*
 do
-    FILENAME=$(basename $FRAMEWORK)
-    /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" "$FRAMEWORK"
+FILENAME=$(basename $FRAMEWORK)
+/usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --no-strict "$FRAMEWORK"
 done
 fi
 
 echo "Code Signing App Binary"
-/usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --timestamp=none "$TARGET_APP_PATH/$APP_BINARY"
+## sign frameworks in app.ipa
+for framework in `ls $TARGET_APP_PATH | grep framework`
+do
+    /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --no-strict $TARGET_APP_PATH/${framework}
+done
 
-
-
+## sign app bin
+/usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --no-strict --timestamp=none "$TARGET_APP_PATH/$APP_BINARY"
 
 
 # ---------------------------------------------------
@@ -269,4 +273,3 @@ echo "Code Signing App Binary"
 #
 #    Nothing To Do, Xcode Will Automatically Install the DummyApp We Overwrited
 echo "Done"
-
