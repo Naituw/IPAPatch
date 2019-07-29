@@ -3,8 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>RESTORE_SYMBOLS</key>
-	<true/>
+	<false/>
 	<key>CREATE_IPA_FILE</key>
+	<false/>
+	<key>IGNORE_UI_SUPPORTED_DEVICES</key>
 	<false/>
 </dict>
 </plist>

@@ -51,9 +51,11 @@ DUMMY_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c "Print CFBundleDisplayName"  "${
 echo "DUMMY_DISPLAY_NAME: $DUMMY_DISPLAY_NAME"
 
 RESTORE_SYMBOLS=$(/usr/libexec/PlistBuddy -c "Print RESTORE_SYMBOLS"  "${OPTIONS_PATH}")
+IGNORE_UI_SUPPORTED_DEVICES=$(/usr/libexec/PlistBuddy -c "Print IGNORE_UI_SUPPORTED_DEVICES"  "${OPTIONS_PATH}")
 
 echo "RESTORE_SYMBOLS: $RESTORE_SYMBOLS"
 echo "CREATE_IPA_FILE: $CREATE_IPA_FILE"
+echo "IGNORE_UI_SUPPORTED_DEVICES: $IGNORE_UI_SUPPORTED_DEVICES"
 
 TARGET_BUNDLE_ID="$PRODUCT_BUNDLE_IDENTIFIER"
 echo "TARGET_BUNDLE_ID: $TARGET_BUNDLE_ID"
@@ -236,7 +238,9 @@ TARGET_DISPLAY_NAME="$DUMMY_DISPLAY_NAME$TARGET_DISPLAY_NAME"
 /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier $PRODUCT_BUNDLE_IDENTIFIER" "$TARGET_APP_PATH/Info.plist"
 /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName $TARGET_DISPLAY_NAME" "$TARGET_APP_PATH/Info.plist"
 
-
+if [ "$IGNORE_UI_SUPPORTED_DEVICES" = true ]; then
+    /usr/libexec/PlistBuddy -c "Delete :UISupportedDevices" "$TARGET_APP_PATH/Info.plist"
+fi
 
 # ---------------------------------------------------
 # 8. Code Sign All The Things
