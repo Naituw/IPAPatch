@@ -262,6 +262,20 @@ done
 fi
 
 echo "Code Signing App Binary"
+function signFrameworkInIpa() {
+    for file in `ls $1`;
+    do
+        if [[ -d "$1/$file" ]]; then
+            frameworkName=`echo $file | grep '.framework'`
+            if [[ $frameworkName != '' ]]; then
+                /usr/bin/codesign --force --sign "$2" --no-strict $1/$file
+            fi
+            signFrameworkInIpa "$1/$file"  $2  $3
+        fi
+    done
+}
+
+signFrameworkInIpa $TARGET_APP_PATH $EXPANDED_CODE_SIGN_IDENTITY $TARGET_APP_PATH
 /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --timestamp=none "$TARGET_APP_PATH/$APP_BINARY"
 
 
