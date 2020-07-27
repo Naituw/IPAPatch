@@ -8,5 +8,9 @@
 	<false/>
 	<key>IGNORE_UI_SUPPORTED_DEVICES</key>
 	<false/>
+	<key>REMOVE_WATCHPLACEHOLDER</key>
+	<true/>
+	<key>USE_ORIGINAL_ENTITLEMENTS</key>
+	<false/>
 </dict>
 </plist>

@@ -36,6 +36,8 @@ DYLIBS_TO_INJECT_PATH="${ASSETS_PATH}/Dylibs"
 DUMMY_DISPLAY_NAME="" # To be found in Step 0
 TARGET_BUNDLE_ID="" # To be found in Step 0
 RESTORE_SYMBOLS=false
+REMOVE_WATCHPLACEHOLDER=false
+USE_ORIGINAL_ENTITLEMENTS=false
 TEMP_APP_PATH=""   # To be found in Step 1
 TARGET_APP_PATH="" # To be found in Step 3
 TARGET_APP_FRAMEWORKS_PATH="" # To be found in Step 5
@@ -52,6 +54,8 @@ echo "DUMMY_DISPLAY_NAME: $DUMMY_DISPLAY_NAME"
 
 RESTORE_SYMBOLS=$(/usr/libexec/PlistBuddy -c "Print RESTORE_SYMBOLS"  "${OPTIONS_PATH}")
 IGNORE_UI_SUPPORTED_DEVICES=$(/usr/libexec/PlistBuddy -c "Print IGNORE_UI_SUPPORTED_DEVICES"  "${OPTIONS_PATH}")
+REMOVE_WATCHPLACEHOLDER=$(/usr/libexec/PlistBuddy -c "Print REMOVE_WATCHPLACEHOLDER"  "${OPTIONS_PATH}")
+USE_ORIGINAL_ENTITLEMENTS=$(/usr/libexec/PlistBuddy -c "Print USE_ORIGINAL_ENTITLEMENTS"  "${OPTIONS_PATH}")
 
 echo "RESTORE_SYMBOLS: $RESTORE_SYMBOLS"
 echo "CREATE_IPA_FILE: $CREATE_IPA_FILE"
@@ -225,7 +229,10 @@ echo "Removing AppExtensions"
 rm -rf "$TARGET_APP_PATH/PlugIns" || true
 rm -rf "$TARGET_APP_PATH/Watch" || true
 
-
+if [ "$REMOVE_WATCHPLACEHOLDER" = true ]; then
+    echo "Removing com.apple.WatchPlaceholder"
+    rm -rf "$TARGET_APP_PATH/com.apple.WatchPlaceholder" || true
+fi
 
 
 # ---------------------------------------------------
@@ -245,24 +252,34 @@ fi
 # ---------------------------------------------------
 # 8. Code Sign All The Things
 
+if [ "$USE_ORIGINAL_ENTITLEMENTS" = true ]; then
+ENTITLEMENTS="$TEMP_PATH/entitlements.xcent"
+codesign -d --entitlements :- "$TARGET_APP_PATH" > "$ENTITLEMENTS"
+fi
+
 echo "Code Signing Dylibs"
-for DYLIB in "$TARGET_APP_PATH/Dylibs/"*
-do
-    FILENAME=$(basename $DYLIB)
-    /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" "$DYLIB"
-done
+if [ "$USE_ORIGINAL_ENTITLEMENTS" = true ]; then
+    /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --entitlements "$ENTITLEMENTS" "$TARGET_APP_PATH/Dylibs/"*
+else
+    /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" "$TARGET_APP_PATH/Dylibs/"*
+fi
+
 
 echo "Code Signing Frameworks"
 if [ -d "$TARGET_APP_FRAMEWORKS_PATH" ]; then
-for FRAMEWORK in "$TARGET_APP_FRAMEWORKS_PATH/"*
-do
-    FILENAME=$(basename $FRAMEWORK)
-    /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" "$FRAMEWORK"
-done
+    if [ "$USE_ORIGINAL_ENTITLEMENTS" = true ]; then
+        /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --entitlements "$ENTITLEMENTS" "$TARGET_APP_FRAMEWORKS_PATH/"*
+    else
+        /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" "$TARGET_APP_FRAMEWORKS_PATH/"*
+    fi
 fi
 
 echo "Code Signing App Binary"
-/usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --timestamp=none "$TARGET_APP_PATH/$APP_BINARY"
+if [ "$USE_ORIGINAL_ENTITLEMENTS" = true ]; then
+    /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --timestamp=none --entitlements "$ENTITLEMENTS" "$TARGET_APP_PATH"
+else
+    /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --timestamp=none "$TARGET_APP_PATH"
+fi
 
 
 
