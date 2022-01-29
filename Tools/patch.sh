@@ -87,8 +87,15 @@ if [ "$RESTORE_SYMBOLS" = true ]; then
     MACH_O_FILE_PATH=$TEMP_APP_PATH/$MACH_O_FILE_NAME
     echo "MACH_O_FILE_PATH: $MACH_O_FILE_PATH"
 
-    lipo -thin armv7 $MACH_O_FILE_PATH -o $TEMP_PATH/"$MACH_O_FILE_NAME"_armv7
-    lipo -thin arm64 $MACH_O_FILE_PATH -o $TEMP_PATH/"$MACH_O_FILE_NAME"_arm64
+    ARCHS=`lipo -archs $MACH_O_FILE_PATH`
+    ARCH_COUNT=${#ARCHS[@]}
+    
+    if [ $ARCH_COUNT -eq 1 ]; then
+        echo "skipping lipo -thin: non-fat binary"
+    else
+        lipo -thin armv7 $MACH_O_FILE_PATH -o $TEMP_PATH/"$MACH_O_FILE_NAME"_armv7
+        lipo -thin arm64 $MACH_O_FILE_PATH -o $TEMP_PATH/"$MACH_O_FILE_NAME"_arm64
+    fi
 
     # ---------------------------------------------------
     # 2.2 try to restore symbol by archs
@@ -97,13 +104,22 @@ if [ "$RESTORE_SYMBOLS" = true ]; then
     # restore symbol technique
 
     RESTORE_SYMBOL_TOOL="${SRCROOT}/Tools/restore-symbol"
-    "$RESTORE_SYMBOL_TOOL" $TEMP_PATH/$"$MACH_O_FILE_NAME"_armv7 -o $TEMP_PATH/$"$MACH_O_FILE_NAME"_armv7_with_symbol
-    "$RESTORE_SYMBOL_TOOL" $TEMP_PATH/$"$MACH_O_FILE_NAME"_arm64 -o $TEMP_PATH/$"$MACH_O_FILE_NAME"_arm64_with_symbol
+    
+    if [ $ARCH_COUNT -eq 1 ]; then
+        "$RESTORE_SYMBOL_TOOL" $MACH_O_FILE_PATH -o $TEMP_PATH/$"$MACH_O_FILE_NAME"_with_symbol
+    else
+        "$RESTORE_SYMBOL_TOOL" $TEMP_PATH/$"$MACH_O_FILE_NAME"_armv7 -o $TEMP_PATH/$"$MACH_O_FILE_NAME"_armv7_with_symbol
+        "$RESTORE_SYMBOL_TOOL" $TEMP_PATH/$"$MACH_O_FILE_NAME"_arm64 -o $TEMP_PATH/$"$MACH_O_FILE_NAME"_arm64_with_symbol
+    fi
 
     # ---------------------------------------------------
     # 2.3 reintegrate Mach-O File
 
-    lipo -create $TEMP_PATH/"$MACH_O_FILE_NAME"_armv7_with_symbol $TEMP_PATH/"$MACH_O_FILE_NAME"_arm64_with_symbol -o $TEMP_PATH/"$MACH_O_FILE_NAME"_with_symbol
+    if [ $ARCH_COUNT -eq 1 ]; then
+        echo "skipping lipo -create: non-fat binary"
+    else
+        lipo -create $TEMP_PATH/"$MACH_O_FILE_NAME"_armv7_with_symbol $TEMP_PATH/"$MACH_O_FILE_NAME"_arm64_with_symbol -o $TEMP_PATH/"$MACH_O_FILE_NAME"_with_symbol
+    fi
 
     rm -f $MACH_O_FILE_PATH
     cp $TEMP_PATH/"$MACH_O_FILE_NAME"_with_symbol $MACH_O_FILE_PATH
