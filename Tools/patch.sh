@@ -72,11 +72,13 @@ echo "TARGET_BUNDLE_ID: $TARGET_BUNDLE_ID"
 # ---------------------------------------------------
 # 1. Extract Target IPA
 
-if [ $PLATFORM="Mac" ]
+if [ $PLATFORM = "Mac" ]
 then
+    echo "Copying Mac App to Temp folder"
     cp -rP "$TARGET_MAC_APP_PATH" "$TEMP_PATH"
     TEMP_APP_PATH=$(set -- "$TEMP_PATH/"*.app; echo "$1")
 else
+    echo "Extracting iOS App to Temp folder"
     unzip -oqq "$TARGET_IPA_PATH" -d "$TEMP_PATH"
     TEMP_APP_PATH=$(set -- "$TEMP_PATH/Payload/"*.app; echo "$1")
 fi
@@ -139,7 +141,7 @@ fi # [ "$RESTORE_SYMBOLS" ]
 # 3. Overwrite DummyApp IPA with Target App Contents
 
 TARGET_APP_PATH="$BUILT_PRODUCTS_DIR/$TARGET_NAME.app"
-if [ $PLATFORM="Mac" ]
+if [ $PLATFORM = "Mac" ]
 then
     TARGET_APP_CONTENTS_PATH="$TARGET_APP_PATH/Contents"
 else
@@ -158,14 +160,14 @@ cp -rfP "$TEMP_APP_PATH/" "$TARGET_APP_PATH/"
 # 4. Inject the Executable We Wrote and Built (IPAPatchFramework.framework)
 
 APP_BINARY=`plutil -convert xml1 -o - $TARGET_APP_CONTENTS_PATH/Info.plist|grep -A1 Exec|tail -n1|cut -f2 -d\>|cut -f1 -d\<`
-if [ $PLATFORM="Mac" ]
+if [ $PLATFORM = "Mac" ]
 then
     APP_BINARY="MacOS/$APP_BINARY"
 fi
 OPTOOL="${SRCROOT}/Tools/optool"
 
 mkdir "$TARGET_APP_CONTENTS_PATH/Dylibs"
-if [ $PLATFORM="Mac" ]
+if [ $PLATFORM = "Mac" ]
 then
     cp "$BUILT_PRODUCTS_DIR/IPAPatchFrameworkMac.framework/IPAPatchFrameworkMac" "$TARGET_APP_CONTENTS_PATH/Dylibs/IPAPatchFramework"
 else
@@ -174,7 +176,7 @@ fi
 for file in `ls -1 "$TARGET_APP_CONTENTS_PATH/Dylibs"`; do
     echo -n '     '
     
-    if [ $PLATFORM="Mac" ]
+    if [ $PLATFORM = "Mac" ]
     then
         FRAMEWORK_LOAD_PATH="@executable_path/../Dylibs/$file"
     else
