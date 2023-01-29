@@ -25,10 +25,13 @@
 #
 #  Created by wutian on 2017/3/17.
 
+PLATFORM="$1"
+
 TEMP_PATH="${SRCROOT}/Temp"
 OPTIONS_PATH="${SRCROOT}/Tools/options.plist"
 ASSETS_PATH="${SRCROOT}/Assets"
 TARGET_IPA_PATH="${ASSETS_PATH}/app.ipa"
+TARGET_MAC_APP_PATH="${ASSETS_PATH}/app.app"
 FRAMEWORKS_TO_INJECT_PATH="${ASSETS_PATH}/Frameworks"
 RESOURCES_TO_INJECT_PATH="${ASSETS_PATH}/Resources"
 DYLIBS_TO_INJECT_PATH="${ASSETS_PATH}/Dylibs"
@@ -40,6 +43,7 @@ REMOVE_WATCHPLACEHOLDER=false
 USE_ORIGINAL_ENTITLEMENTS=false
 TEMP_APP_PATH=""   # To be found in Step 1
 TARGET_APP_PATH="" # To be found in Step 3
+TARGET_APP_CONTENTS_PATH="" # To be found in Step 3
 TARGET_APP_FRAMEWORKS_PATH="" # To be found in Step 5
 
 
@@ -68,12 +72,16 @@ echo "TARGET_BUNDLE_ID: $TARGET_BUNDLE_ID"
 # ---------------------------------------------------
 # 1. Extract Target IPA
 
-unzip -oqq "$TARGET_IPA_PATH" -d "$TEMP_PATH"
-TEMP_APP_PATH=$(set -- "$TEMP_PATH/Payload/"*.app; echo "$1")
+if [ $PLATFORM="Mac" ]
+then
+    cp -r "$TARGET_MAC_APP_PATH" "$TEMP_PATH"
+    TEMP_APP_PATH=$(set -- "$TEMP_PATH/"*.app; echo "$1")
+else
+    unzip -oqq "$TARGET_IPA_PATH" -d "$TEMP_PATH"
+    TEMP_APP_PATH=$(set -- "$TEMP_PATH/Payload/"*.app; echo "$1")
+fi
+    
 echo "TEMP_APP_PATH: $TEMP_APP_PATH"
-
-
-
 
 # ---------------------------------------------------
 # 2 restore symbol and integrate to Mach-O File
@@ -131,6 +139,12 @@ fi # [ "$RESTORE_SYMBOLS" ]
 # 3. Overwrite DummyApp IPA with Target App Contents
 
 TARGET_APP_PATH="$BUILT_PRODUCTS_DIR/$TARGET_NAME.app"
+if [ $PLATFORM="Mac" ]
+then
+    TARGET_APP_CONTENTS_PATH="$TARGET_APP_PATH/Contents"
+else
+    TARGET_APP_CONTENTS_PATH="$TARGET_APP_PATH"
+fi
 echo "TARGET_APP_PATH: $TARGET_APP_PATH"
 
 rm -rf "$TARGET_APP_PATH" || true
@@ -143,18 +157,18 @@ cp -rf "$TEMP_APP_PATH/" "$TARGET_APP_PATH/"
 # ---------------------------------------------------
 # 4. Inject the Executable We Wrote and Built (IPAPatchFramework.framework)
 
-APP_BINARY=`plutil -convert xml1 -o - $TARGET_APP_PATH/Info.plist|grep -A1 Exec|tail -n1|cut -f2 -d\>|cut -f1 -d\<`
+APP_BINARY=`plutil -convert xml1 -o - $TARGET_APP_CONTENTS_PATH/Info.plist|grep -A1 Exec|tail -n1|cut -f2 -d\>|cut -f1 -d\<`
 OPTOOL="${SRCROOT}/Tools/optool"
 
-mkdir "$TARGET_APP_PATH/Dylibs"
-cp "$BUILT_PRODUCTS_DIR/IPAPatchFramework.framework/IPAPatchFramework" "$TARGET_APP_PATH/Dylibs/IPAPatchFramework"
-for file in `ls -1 "$TARGET_APP_PATH/Dylibs"`; do
+mkdir "$TARGET_APP_CONTENTS_PATH/Dylibs"
+cp "$BUILT_PRODUCTS_DIR/IPAPatchFramework.framework/IPAPatchFramework" "$TARGET_APP_CONTENTS_PATH/Dylibs/IPAPatchFramework"
+for file in `ls -1 "$TARGET_APP_CONTENTS_PATH/Dylibs"`; do
     echo -n '     '
     echo "Install Load: $file -> @executable_path/Dylibs/$file"
-    "$OPTOOL" install -c load -p "@executable_path/Dylibs/$file" -t "$TARGET_APP_PATH/$APP_BINARY"
+    "$OPTOOL" install -c load -p "@executable_path/Dylibs/$file" -t "$TARGET_APP_CONTENTS_PATH/$APP_BINARY"
 done
 
-chmod +x "$TARGET_APP_PATH/$APP_BINARY"
+chmod +x "$TARGET_APP_CONTENTS_PATH/$APP_BINARY"
 
 
 
@@ -187,7 +201,7 @@ CopySwiftStdLib () {
 }
 
 # 5-1. Inject External Frameworks if Exists
-TARGET_APP_FRAMEWORKS_PATH="$BUILT_PRODUCTS_DIR/$TARGET_NAME.app/Frameworks"
+TARGET_APP_FRAMEWORKS_PATH="$TARGET_APP_CONTENTS_PATH/Frameworks"
 
 echo "Injecting Frameworks from $FRAMEWORKS_TO_INJECT_PATH"
 for file in `ls -1 "${FRAMEWORKS_TO_INJECT_PATH}"`; do
@@ -206,7 +220,7 @@ for file in `ls -1 "${FRAMEWORKS_TO_INJECT_PATH}"`; do
     echo -n '     '
     echo "Install Load: $file -> @executable_path/Frameworks/$file/$filename"
 
-    "$OPTOOL" install -c load -p "@executable_path/Frameworks/$file/$filename" -t "$TARGET_APP_PATH/$APP_BINARY"
+    "$OPTOOL" install -c load -p "@executable_path/Frameworks/$file/$filename" -t "$TARGET_APP_CONTENTS_PATH/$APP_BINARY"
 
     CopySwiftStdLib "$TARGET_APP_FRAMEWORKS_PATH/$file/$filename" "$TARGET_APP_FRAMEWORKS_PATH"
 done
@@ -219,19 +233,19 @@ for file in `ls -1 "${DYLIBS_TO_INJECT_PATH}"`; do
     fi
 
     filename="${file%.*}"
-   	cp "$DYLIBS_TO_INJECT_PATH/$filename" "$TARGET_APP_PATH/Dylibs/$filename"
+   	cp "$DYLIBS_TO_INJECT_PATH/$filename" "$TARGET_APP_CONTENTS_PATH/Dylibs/$filename"
 
     echo -n '     '
 	echo "Install Load: $file -> @executable_path/Dylibs/$filename"
 	
-    "$OPTOOL" install -c load -p "@executable_path/Dylibs/$filename" -t "$TARGET_APP_PATH/$APP_BINARY"
+    "$OPTOOL" install -c load -p "@executable_path/Dylibs/$filename" -t "$TARGET_APP_CONTENTS_PATH/$APP_BINARY"
 
-    CopySwiftStdLib "$TARGET_APP_PATH/Dylibs/$filename" "$TARGET_APP_FRAMEWORKS_PATH"
+    CopySwiftStdLib "$TARGET_APP_CONTENTS_PATH/Dylibs/$filename" "$TARGET_APP_FRAMEWORKS_PATH"
 done
 
 # 5-3. Inject External Resources if Exists
 echo "Injecting Resources from $RESOURCES_TO_INJECT_PATH"
-rsync -av --exclude=".*" "${RESOURCES_TO_INJECT_PATH}/" "$TARGET_APP_PATH"
+rsync -av --exclude=".*" "${RESOURCES_TO_INJECT_PATH}/" "$TARGET_APP_CONTENTS_PATH"
 
 
 
@@ -242,12 +256,12 @@ rsync -av --exclude=".*" "${RESOURCES_TO_INJECT_PATH}/" "$TARGET_APP_PATH"
 # 6. Remove Plugins/Watch (AppExtensions), To Simplify the Signing Process
 
 echo "Removing AppExtensions"
-rm -rf "$TARGET_APP_PATH/PlugIns" || true
-rm -rf "$TARGET_APP_PATH/Watch" || true
+rm -rf "$TARGET_APP_CONTENTS_PATH/PlugIns" || true
+rm -rf "$TARGET_APP_CONTENTS_PATH/Watch" || true
 
 if [ "$REMOVE_WATCHPLACEHOLDER" = true ]; then
     echo "Removing com.apple.WatchPlaceholder"
-    rm -rf "$TARGET_APP_PATH/com.apple.WatchPlaceholder" || true
+    rm -rf "$TARGET_APP_CONTENTS_PATH/com.apple.WatchPlaceholder" || true
 fi
 
 
@@ -255,14 +269,14 @@ fi
 # 7. Update Info.plist for Target App
 
 echo "Updating BundleID:$PRODUCT_BUNDLE_IDENTIFIER, DisplayName:$TARGET_DISPLAY_NAME"
-TARGET_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c "Print CFBundleDisplayName"  "$TARGET_APP_PATH/Info.plist")
+TARGET_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c "Print CFBundleDisplayName"  "$TARGET_APP_CONTENTS_PATH/Info.plist")
 TARGET_DISPLAY_NAME="$DUMMY_DISPLAY_NAME$TARGET_DISPLAY_NAME"
 
-/usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier $PRODUCT_BUNDLE_IDENTIFIER" "$TARGET_APP_PATH/Info.plist"
-/usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName $TARGET_DISPLAY_NAME" "$TARGET_APP_PATH/Info.plist"
+/usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier $PRODUCT_BUNDLE_IDENTIFIER" "$TARGET_APP_CONTENTS_PATH/Info.plist"
+/usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName $TARGET_DISPLAY_NAME" "$TARGET_APP_CONTENTS_PATH/Info.plist"
 
 if [ "$IGNORE_UI_SUPPORTED_DEVICES" = true ]; then
-    /usr/libexec/PlistBuddy -c "Delete :UISupportedDevices" "$TARGET_APP_PATH/Info.plist"
+    /usr/libexec/PlistBuddy -c "Delete :UISupportedDevices" "$TARGET_APP_CONTENTS_PATH/Info.plist"
 fi
 
 # ---------------------------------------------------
@@ -275,9 +289,9 @@ fi
 
 echo "Code Signing Dylibs"
 if [ "$USE_ORIGINAL_ENTITLEMENTS" = true ]; then
-    /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --entitlements "$ENTITLEMENTS" "$TARGET_APP_PATH/Dylibs/"*
+    /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --entitlements "$ENTITLEMENTS" "$TARGET_APP_CONTENTS_PATH/Dylibs/"*
 else
-    /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" "$TARGET_APP_PATH/Dylibs/"*
+    /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" "$TARGET_APP_CONTENTS_PATH/Dylibs/"*
 fi
 
 

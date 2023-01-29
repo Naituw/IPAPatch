@@ -27,6 +27,9 @@
 		C63AC1AA1E8392210094B1C5 /* IPAPatchBypassAntiDebugging.h in Headers */ = {isa = PBXBuildFile; fileRef = C63AC1A81E8392210094B1C5 /* IPAPatchBypassAntiDebugging.h */; };
 		C63AC1AB1E8392210094B1C5 /* IPAPatchBypassAntiDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = C63AC1A91E8392210094B1C5 /* IPAPatchBypassAntiDebugging.m */; };
 		C64288391E7BF9E900C0BBB0 /* ProjectConfigurationWarning.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64288371E7BF9E900C0BBB0 /* ProjectConfigurationWarning.cpp */; };
+		C698B9F82986148600BB5DC9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C698B9F72986148600BB5DC9 /* AppDelegate.m */; };
+		C698BA022986148700BB5DC9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C698BA012986148700BB5DC9 /* main.m */; };
+		C698BA0A29861BA800BB5DC9 /* ProjectConfigurationWarning.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64288371E7BF9E900C0BBB0 /* ProjectConfigurationWarning.cpp */; };
 		C6A353E21F51367500A9E30D /* options.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6A353E11F51367500A9E30D /* options.plist */; };
 		C6B263271E7BC9DF009B4DEA /* IPAPatchEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C6B263251E7BC9DF009B4DEA /* IPAPatchEntry.h */; };
 		C6B263281E7BC9DF009B4DEA /* IPAPatchEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B263261E7BC9DF009B4DEA /* IPAPatchEntry.m */; };
@@ -35,6 +38,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C698BA07298614AE00BB5DC9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C6B262FE1E7BC97B009B4DEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C6B263061E7BC97B009B4DEA;
+			remoteInfo = IPAPatchFramework;
+		};
 		C6B263601E7BCC65009B4DEA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C6B262FE1E7BC97B009B4DEA /* Project object */;
@@ -59,6 +69,10 @@
 		C63AC1A91E8392210094B1C5 /* IPAPatchBypassAntiDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPAPatchBypassAntiDebugging.m; sourceTree = "<group>"; };
 		C64288371E7BF9E900C0BBB0 /* ProjectConfigurationWarning.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectConfigurationWarning.cpp; sourceTree = "<group>"; };
 		C64288381E7BF9E900C0BBB0 /* ProjectConfigurationWarning.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ProjectConfigurationWarning.hpp; sourceTree = "<group>"; };
+		C698B9F42986148600BB5DC9 /* IPAPatch-MacDummyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IPAPatch-MacDummyApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C698B9F62986148600BB5DC9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		C698B9F72986148600BB5DC9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		C698BA012986148700BB5DC9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C6A353E11F51367500A9E30D /* options.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = options.plist; sourceTree = "<group>"; };
 		C6B263071E7BC97B009B4DEA /* IPAPatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = IPAPatch.framework; path = IPAPatchFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6B2630B1E7BC97B009B4DEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -74,6 +88,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C698B9F12986148600BB5DC9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C6B263031E7BC97B009B4DEA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -109,12 +130,23 @@
 			path = fishhook;
 			sourceTree = "<group>";
 		};
+		C698B9F52986148600BB5DC9 /* IPAPatch-MacDummyApp */ = {
+			isa = PBXGroup;
+			children = (
+				C698B9F62986148600BB5DC9 /* AppDelegate.h */,
+				C698B9F72986148600BB5DC9 /* AppDelegate.m */,
+				C698BA012986148700BB5DC9 /* main.m */,
+			);
+			path = "IPAPatch-MacDummyApp";
+			sourceTree = "<group>";
+		};
 		C6B262FD1E7BC97B009B4DEA = {
 			isa = PBXGroup;
 			children = (
 				C6B263091E7BC97B009B4DEA /* IPAPatch */,
 				C6B263291E7BCA86009B4DEA /* Tools */,
 				C6B2634A1E7BCB31009B4DEA /* IPAPatch-DummyApp */,
+				C698B9F52986148600BB5DC9 /* IPAPatch-MacDummyApp */,
 				C6B263081E7BC97B009B4DEA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -124,6 +156,7 @@
 			children = (
 				C6B263071E7BC97B009B4DEA /* IPAPatch.framework */,
 				C6B263491E7BCB31009B4DEA /* IPAPatch-DummyApp.app */,
+				C698B9F42986148600BB5DC9 /* IPAPatch-MacDummyApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -188,6 +221,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		C698B9F32986148600BB5DC9 /* IPAPatch-MacDummyApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C698BA062986148700BB5DC9 /* Build configuration list for PBXNativeTarget "IPAPatch-MacDummyApp" */;
+			buildPhases = (
+				C698B9F02986148600BB5DC9 /* Sources */,
+				C698B9F12986148600BB5DC9 /* Frameworks */,
+				C698B9F22986148600BB5DC9 /* Resources */,
+				C698BA09298614FC00BB5DC9 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C698BA08298614AE00BB5DC9 /* PBXTargetDependency */,
+			);
+			name = "IPAPatch-MacDummyApp";
+			productName = "IPAPatch-MacDummyApp";
+			productReference = C698B9F42986148600BB5DC9 /* IPAPatch-MacDummyApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 		C6B263061E7BC97B009B4DEA /* IPAPatchFramework */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C6B2631B1E7BC97B009B4DEA /* Build configuration list for PBXNativeTarget "IPAPatchFramework" */;
@@ -231,9 +283,14 @@
 		C6B262FE1E7BC97B009B4DEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				DefaultBuildSystemTypeForWorkspace = Original;
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Weibo;
 				TargetAttributes = {
+					C698B9F32986148600BB5DC9 = {
+						CreatedOnToolsVersion = 14.1;
+						ProvisioningStyle = Automatic;
+					};
 					C6B263061E7BC97B009B4DEA = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = DMJXDB9H6Q;
@@ -254,6 +311,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -265,11 +323,19 @@
 				C6B263481E7BCB31009B4DEA /* IPAPatch-DummyApp */,
 				C6B263061E7BC97B009B4DEA /* IPAPatchFramework */,
 				C6DDBB5C1F51468D00A42BE2 /* IPAPatch */,
+				C698B9F32986148600BB5DC9 /* IPAPatch-MacDummyApp */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C698B9F22986148600BB5DC9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C6B263051E7BC97B009B4DEA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -288,6 +354,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		C698BA09298614FC00BB5DC9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Tools/patch.sh\" Mac\n";
+		};
 		C6B263631E7BD0B4009B4DEA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -299,7 +382,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Tools/patch.sh\"";
+			shellScript = "\"${SRCROOT}/Tools/patch.sh\" iOS\n";
 		};
 		C6DDBB631F5147BA00A42BE2 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -317,6 +400,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C698B9F02986148600BB5DC9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C698BA022986148700BB5DC9 /* main.m in Sources */,
+				C698BA0A29861BA800BB5DC9 /* ProjectConfigurationWarning.cpp in Sources */,
+				C698B9F82986148600BB5DC9 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C6B263021E7BC97B009B4DEA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -340,6 +433,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C698BA08298614AE00BB5DC9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C6B263061E7BC97B009B4DEA /* IPAPatchFramework */;
+			targetProxy = C698BA07298614AE00BB5DC9 /* PBXContainerItemProxy */;
+		};
 		C6B263611E7BCC65009B4DEA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C6B263061E7BC97B009B4DEA /* IPAPatchFramework */;
@@ -353,6 +451,85 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		C698BA042986148700BB5DC9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Weibo. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wutian.example;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		C698BA052986148700BB5DC9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Weibo. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wutian.example;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
 		C6B263191E7BC97B009B4DEA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -555,6 +732,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C698BA062986148700BB5DC9 /* Build configuration list for PBXNativeTarget "IPAPatch-MacDummyApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C698BA042986148700BB5DC9 /* Debug */,
+				C698BA052986148700BB5DC9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C6B263011E7BC97B009B4DEA /* Build configuration list for PBXProject "IPAPatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
