@@ -74,7 +74,7 @@ echo "TARGET_BUNDLE_ID: $TARGET_BUNDLE_ID"
 
 if [ $PLATFORM="Mac" ]
 then
-    cp -r "$TARGET_MAC_APP_PATH" "$TEMP_PATH"
+    cp -rP "$TARGET_MAC_APP_PATH" "$TEMP_PATH"
     TEMP_APP_PATH=$(set -- "$TEMP_PATH/"*.app; echo "$1")
 else
     unzip -oqq "$TARGET_IPA_PATH" -d "$TEMP_PATH"
@@ -149,7 +149,7 @@ echo "TARGET_APP_PATH: $TARGET_APP_PATH"
 
 rm -rf "$TARGET_APP_PATH" || true
 mkdir -p "$TARGET_APP_PATH" || true
-cp -rf "$TEMP_APP_PATH/" "$TARGET_APP_PATH/"
+cp -rfP "$TEMP_APP_PATH/" "$TARGET_APP_PATH/"
 
 
 
