@@ -158,14 +158,31 @@ cp -rf "$TEMP_APP_PATH/" "$TARGET_APP_PATH/"
 # 4. Inject the Executable We Wrote and Built (IPAPatchFramework.framework)
 
 APP_BINARY=`plutil -convert xml1 -o - $TARGET_APP_CONTENTS_PATH/Info.plist|grep -A1 Exec|tail -n1|cut -f2 -d\>|cut -f1 -d\<`
+if [ $PLATFORM="Mac" ]
+then
+    APP_BINARY="MacOS/$APP_BINARY"
+fi
 OPTOOL="${SRCROOT}/Tools/optool"
 
 mkdir "$TARGET_APP_CONTENTS_PATH/Dylibs"
-cp "$BUILT_PRODUCTS_DIR/IPAPatchFramework.framework/IPAPatchFramework" "$TARGET_APP_CONTENTS_PATH/Dylibs/IPAPatchFramework"
+if [ $PLATFORM="Mac" ]
+then
+    cp "$BUILT_PRODUCTS_DIR/IPAPatchFrameworkMac.framework/IPAPatchFrameworkMac" "$TARGET_APP_CONTENTS_PATH/Dylibs/IPAPatchFramework"
+else
+    cp "$BUILT_PRODUCTS_DIR/IPAPatchFramework.framework/IPAPatchFramework" "$TARGET_APP_CONTENTS_PATH/Dylibs/IPAPatchFramework"
+fi
 for file in `ls -1 "$TARGET_APP_CONTENTS_PATH/Dylibs"`; do
     echo -n '     '
-    echo "Install Load: $file -> @executable_path/Dylibs/$file"
-    "$OPTOOL" install -c load -p "@executable_path/Dylibs/$file" -t "$TARGET_APP_CONTENTS_PATH/$APP_BINARY"
+    
+    if [ $PLATFORM="Mac" ]
+    then
+        FRAMEWORK_LOAD_PATH="@executable_path/../Dylibs/$file"
+    else
+        FRAMEWORK_LOAD_PATH="@executable_path/Dylibs/$file"
+    fi
+    
+    echo "Install Load: $file -> $FRAMEWORK_LOAD_PATH"
+    "$OPTOOL" install -c load -p "$FRAMEWORK_LOAD_PATH" -t "$TARGET_APP_CONTENTS_PATH/$APP_BINARY"
 done
 
 chmod +x "$TARGET_APP_CONTENTS_PATH/$APP_BINARY"

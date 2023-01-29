@@ -30,6 +30,10 @@
 		C698B9F82986148600BB5DC9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C698B9F72986148600BB5DC9 /* AppDelegate.m */; };
 		C698BA022986148700BB5DC9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C698BA012986148700BB5DC9 /* main.m */; };
 		C698BA0A29861BA800BB5DC9 /* ProjectConfigurationWarning.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64288371E7BF9E900C0BBB0 /* ProjectConfigurationWarning.cpp */; };
+		C698BA1329861E8C00BB5DC9 /* IPAPatchFrameworkMac.h in Headers */ = {isa = PBXBuildFile; fileRef = C698BA1229861E8C00BB5DC9 /* IPAPatchFrameworkMac.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C698BA1C29861ED700BB5DC9 /* IPAPatchEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B263261E7BC9DF009B4DEA /* IPAPatchEntry.m */; };
+		C698BA1D29861EDA00BB5DC9 /* IPAPatchBypassAntiDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = C63AC1A91E8392210094B1C5 /* IPAPatchBypassAntiDebugging.m */; };
+		C698BA1E29861EDE00BB5DC9 /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = C63AC1A21E838BB70094B1C5 /* fishhook.c */; };
 		C6A353E21F51367500A9E30D /* options.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6A353E11F51367500A9E30D /* options.plist */; };
 		C6B263271E7BC9DF009B4DEA /* IPAPatchEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C6B263251E7BC9DF009B4DEA /* IPAPatchEntry.h */; };
 		C6B263281E7BC9DF009B4DEA /* IPAPatchEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B263261E7BC9DF009B4DEA /* IPAPatchEntry.m */; };
@@ -38,12 +42,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C698BA07298614AE00BB5DC9 /* PBXContainerItemProxy */ = {
+		C698BA1429861E8C00BB5DC9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C6B262FE1E7BC97B009B4DEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = C6B263061E7BC97B009B4DEA;
-			remoteInfo = IPAPatchFramework;
+			remoteGlobalIDString = C698BA0F29861E8B00BB5DC9;
+			remoteInfo = IPAPatchFrameworkMac;
 		};
 		C6B263601E7BCC65009B4DEA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -73,6 +77,8 @@
 		C698B9F62986148600BB5DC9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C698B9F72986148600BB5DC9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C698BA012986148700BB5DC9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C698BA1029861E8B00BB5DC9 /* IPAPatchFrameworkMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IPAPatchFrameworkMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C698BA1229861E8C00BB5DC9 /* IPAPatchFrameworkMac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPAPatchFrameworkMac.h; sourceTree = "<group>"; };
 		C6A353E11F51367500A9E30D /* options.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = options.plist; sourceTree = "<group>"; };
 		C6B263071E7BC97B009B4DEA /* IPAPatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = IPAPatch.framework; path = IPAPatchFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6B2630B1E7BC97B009B4DEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -89,6 +95,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		C698B9F12986148600BB5DC9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C698BA0D29861E8B00BB5DC9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -140,6 +153,14 @@
 			path = "IPAPatch-MacDummyApp";
 			sourceTree = "<group>";
 		};
+		C698BA1129861E8B00BB5DC9 /* IPAPatchFrameworkMac */ = {
+			isa = PBXGroup;
+			children = (
+				C698BA1229861E8C00BB5DC9 /* IPAPatchFrameworkMac.h */,
+			);
+			path = IPAPatchFrameworkMac;
+			sourceTree = "<group>";
+		};
 		C6B262FD1E7BC97B009B4DEA = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +168,7 @@
 				C6B263291E7BCA86009B4DEA /* Tools */,
 				C6B2634A1E7BCB31009B4DEA /* IPAPatch-DummyApp */,
 				C698B9F52986148600BB5DC9 /* IPAPatch-MacDummyApp */,
+				C698BA1129861E8B00BB5DC9 /* IPAPatchFrameworkMac */,
 				C6B263081E7BC97B009B4DEA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -157,6 +179,7 @@
 				C6B263071E7BC97B009B4DEA /* IPAPatch.framework */,
 				C6B263491E7BCB31009B4DEA /* IPAPatch-DummyApp.app */,
 				C698B9F42986148600BB5DC9 /* IPAPatch-MacDummyApp.app */,
+				C698BA1029861E8B00BB5DC9 /* IPAPatchFrameworkMac.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -208,6 +231,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		C698BA0B29861E8B00BB5DC9 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C698BA1329861E8C00BB5DC9 /* IPAPatchFrameworkMac.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C6B263041E7BC97B009B4DEA /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -233,12 +264,30 @@
 			buildRules = (
 			);
 			dependencies = (
-				C698BA08298614AE00BB5DC9 /* PBXTargetDependency */,
+				C698BA1529861E8C00BB5DC9 /* PBXTargetDependency */,
 			);
 			name = "IPAPatch-MacDummyApp";
 			productName = "IPAPatch-MacDummyApp";
 			productReference = C698B9F42986148600BB5DC9 /* IPAPatch-MacDummyApp.app */;
 			productType = "com.apple.product-type.application";
+		};
+		C698BA0F29861E8B00BB5DC9 /* IPAPatchFrameworkMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C698BA1829861E8C00BB5DC9 /* Build configuration list for PBXNativeTarget "IPAPatchFrameworkMac" */;
+			buildPhases = (
+				C698BA0B29861E8B00BB5DC9 /* Headers */,
+				C698BA0C29861E8B00BB5DC9 /* Sources */,
+				C698BA0D29861E8B00BB5DC9 /* Frameworks */,
+				C698BA0E29861E8B00BB5DC9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IPAPatchFrameworkMac;
+			productName = IPAPatchFrameworkMac;
+			productReference = C698BA1029861E8B00BB5DC9 /* IPAPatchFrameworkMac.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 		C6B263061E7BC97B009B4DEA /* IPAPatchFramework */ = {
 			isa = PBXNativeTarget;
@@ -291,6 +340,10 @@
 						CreatedOnToolsVersion = 14.1;
 						ProvisioningStyle = Automatic;
 					};
+					C698BA0F29861E8B00BB5DC9 = {
+						CreatedOnToolsVersion = 14.1;
+						ProvisioningStyle = Automatic;
+					};
 					C6B263061E7BC97B009B4DEA = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = DMJXDB9H6Q;
@@ -324,12 +377,20 @@
 				C6B263061E7BC97B009B4DEA /* IPAPatchFramework */,
 				C6DDBB5C1F51468D00A42BE2 /* IPAPatch */,
 				C698B9F32986148600BB5DC9 /* IPAPatch-MacDummyApp */,
+				C698BA0F29861E8B00BB5DC9 /* IPAPatchFrameworkMac */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C698B9F22986148600BB5DC9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C698BA0E29861E8B00BB5DC9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -410,6 +471,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C698BA0C29861E8B00BB5DC9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C698BA1D29861EDA00BB5DC9 /* IPAPatchBypassAntiDebugging.m in Sources */,
+				C698BA1E29861EDE00BB5DC9 /* fishhook.c in Sources */,
+				C698BA1C29861ED700BB5DC9 /* IPAPatchEntry.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C6B263021E7BC97B009B4DEA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -433,10 +504,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C698BA08298614AE00BB5DC9 /* PBXTargetDependency */ = {
+		C698BA1529861E8C00BB5DC9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C6B263061E7BC97B009B4DEA /* IPAPatchFramework */;
-			targetProxy = C698BA07298614AE00BB5DC9 /* PBXContainerItemProxy */;
+			target = C698BA0F29861E8B00BB5DC9 /* IPAPatchFrameworkMac */;
+			targetProxy = C698BA1429861E8C00BB5DC9 /* PBXContainerItemProxy */;
 		};
 		C6B263611E7BCC65009B4DEA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -475,7 +546,14 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GENERATE_INFOPLIST_FILE = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"TARGET_BUNDLE_ID=$(PRODUCT_BUNDLE_IDENTIFIER)",
+					"CODE_SIGN_IDENTITY=$(CODE_SIGN_IDENTITY)",
+				);
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "IPAPatch-DummyApp/Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Weibo. All rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -515,7 +593,12 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GENERATE_INFOPLIST_FILE = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"TARGET_BUNDLE_ID=$(PRODUCT_BUNDLE_IDENTIFIER)",
+					"CODE_SIGN_IDENTITY=$(CODE_SIGN_IDENTITY)",
+				);
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "IPAPatch-DummyApp/Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Weibo. All rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -526,6 +609,87 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.wutian.example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		C698BA1929861E8C00BB5DC9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Weibo. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wutian.IPAPatchMac;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		C698BA1A29861E8C00BB5DC9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Weibo. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wutian.IPAPatchMac;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
 			name = Release;
@@ -681,6 +845,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 					"TARGET_BUNDLE_ID=$(PRODUCT_BUNDLE_IDENTIFIER)",
+					"CODE_SIGN_IDENTITY=$(CODE_SIGN_IDENTITY)",
 				);
 				INFOPLIST_FILE = "IPAPatch-DummyApp/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -701,7 +866,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = "TARGET_BUNDLE_ID=$(PRODUCT_BUNDLE_IDENTIFIER)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"TARGET_BUNDLE_ID=$(PRODUCT_BUNDLE_IDENTIFIER)",
+					"CODE_SIGN_IDENTITY=$(CODE_SIGN_IDENTITY)",
+				);
 				INFOPLIST_FILE = "IPAPatch-DummyApp/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -737,6 +905,15 @@
 			buildConfigurations = (
 				C698BA042986148700BB5DC9 /* Debug */,
 				C698BA052986148700BB5DC9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C698BA1829861E8C00BB5DC9 /* Build configuration list for PBXNativeTarget "IPAPatchFrameworkMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C698BA1929861E8C00BB5DC9 /* Debug */,
+				C698BA1A29861E8C00BB5DC9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
