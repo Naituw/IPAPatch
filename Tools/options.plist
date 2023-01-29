@@ -7,7 +7,7 @@
 	<key>CREATE_IPA_FILE</key>
 	<false/>
 	<key>IGNORE_UI_SUPPORTED_DEVICES</key>
-	<false/>
+	<true/>
 	<key>REMOVE_WATCHPLACEHOLDER</key>
 	<true/>
 	<key>USE_ORIGINAL_ENTITLEMENTS</key>
