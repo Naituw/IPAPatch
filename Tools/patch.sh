@@ -328,10 +328,16 @@ fi
 echo "Code Signing App Binary"
 if [ "$USE_ORIGINAL_ENTITLEMENTS" = true ]; then
     /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --timestamp=none --entitlements "$ENTITLEMENTS" "$TARGET_APP_PATH"
-    /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --timestamp=none --entitlements "$ENTITLEMENTS" "$TARGET_APP_CONTENTS_PATH/MacOS/"*
+    if [ $PLATFORM = "Mac" ]
+    then
+        /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --timestamp=none --entitlements "$ENTITLEMENTS" "$TARGET_APP_CONTENTS_PATH/MacOS/"*
+    fi
 else
     /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --timestamp=none "$TARGET_APP_PATH"
-    /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --timestamp=none "$TARGET_APP_CONTENTS_PATH/MacOS/"*
+    if [ $PLATFORM = "Mac" ]
+    then
+        /usr/bin/codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --timestamp=none "$TARGET_APP_CONTENTS_PATH/MacOS/"*
+    fi
 fi
 
 
