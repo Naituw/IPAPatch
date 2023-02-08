@@ -100,7 +100,7 @@ IPAPatch provide a simple way to patch iOS Apps, without needing to jailbreak.
 
 8. **Build and Run**
 
-   Select a real device, and hit the "Run" button at the top-left corner of Xcode. The code your wrote and external frameworks you placed will inject to the ipa file automatically.
+   Select a real device, select the `IPAPatch-DummyApp` scheme and hit the "Run" button at the top-left corner of Xcode. The code your wrote and external frameworks you placed will inject to the ipa file automatically.
 
 ## Example
 
