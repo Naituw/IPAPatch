@@ -251,7 +251,7 @@ for file in `ls -1 "${DYLIBS_TO_INJECT_PATH}"`; do
         continue
     fi
 
-    filename="${file%.*}"
+    filename="${file%.*}"".dylib"
    	cp "$DYLIBS_TO_INJECT_PATH/$filename" "$TARGET_APP_CONTENTS_PATH/Dylibs/$filename"
 
     echo -n '     '
