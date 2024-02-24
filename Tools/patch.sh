@@ -45,7 +45,7 @@ TEMP_APP_PATH=""   # To be found in Step 1
 TARGET_APP_PATH="" # To be found in Step 3
 TARGET_APP_CONTENTS_PATH="" # To be found in Step 3
 TARGET_APP_FRAMEWORKS_PATH="" # To be found in Step 5
-
+TARGET_APP_FRAMEWORKS_SUBPATH="" # To be found in Step 5
 
 # ---------------------------------------------------
 # 0. Prepare Working Enviroment
@@ -226,22 +226,26 @@ echo "Injecting Frameworks from $FRAMEWORKS_TO_INJECT_PATH"
 for file in `ls -1 "${FRAMEWORKS_TO_INJECT_PATH}"`; do
     extension="${file##*.}"
     echo "$file 's extension is $extension"
-
+    
+    filename="${file%.*}"
+    TARGET_APP_FRAMEWORKS_SUBPATH="$file/$filename"
+    
     if [ "$extension" != "framework" ]
     then
-        continue
+        #continue
+        echo "Maybe ""$file"" is not a framework"
+        TARGET_APP_FRAMEWORKS_SUBPATH="$file"
     fi
 
     mkdir -p "$TARGET_APP_FRAMEWORKS_PATH"
     rsync -av --exclude=".*" "${FRAMEWORKS_TO_INJECT_PATH}/$file" "$TARGET_APP_FRAMEWORKS_PATH"
-    filename="${file%.*}"
 
     echo -n '     '
-    echo "Install Load: $file -> @executable_path/Frameworks/$file/$filename"
+    echo "Install Load: $file -> @executable_path/Frameworks/$TARGET_APP_FRAMEWORKS_SUBPATH"
 
-    "$OPTOOL" install -c load -p "@executable_path/Frameworks/$file/$filename" -t "$TARGET_APP_CONTENTS_PATH/$APP_BINARY"
+    "$OPTOOL" install -c load -p "@executable_path/Frameworks/$TARGET_APP_FRAMEWORKS_SUBPATH" -t "$TARGET_APP_CONTENTS_PATH/$APP_BINARY"
 
-    CopySwiftStdLib "$TARGET_APP_FRAMEWORKS_PATH/$file/$filename" "$TARGET_APP_FRAMEWORKS_PATH"
+    CopySwiftStdLib "$TARGET_APP_FRAMEWORKS_PATH/$TARGET_APP_FRAMEWORKS_SUBPATH" "$TARGET_APP_FRAMEWORKS_PATH"
 done
 
 # 5-2. Inject Dylibs if Exists
